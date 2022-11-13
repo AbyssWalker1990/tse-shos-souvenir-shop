@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <!-- Items Starts Here -->
+    <div class="featured-page">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+            <div class="section-heading">
+              <div class="line-dec"></div>
+              <h1>Featured Items</h1>
+            </div>
+          </div>
+          <div class="col-md-8 col-sm-12">
+            <div id="filters" class="button-group">
+              <form action="{% url 'product_category' category_id.id %}" method="POST">
+                {% csrf_token %}
+              <button type="submit" name="new" class="btn btn-primary" value="new" data-filter=".new">Нові</button>
+              <button type="submit" name="low" class="btn btn-primary" value="low" data-filter=".low">Нижча ціна</button>
+
+              <button type="submit" name="high" class="btn btn-primary" data-filter=".high" value="high">Вища ціна</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="featured container no-gutter">
+
+        <div class="row posts">
+            {% for product in products %}
+            <div id="1" class="item new col-md-4">
+              <a href="{% url 'goods_article' product.id %}">
+                <div class="featured-item">
+                  <img src="{{product.featured_img.url}}" alt="">
+                  <h4>{{product.name}}</h4>
+                  <p>{{product.price}}</p>
+
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="page-navigation">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            {% include 'pagination.html' with queryset=products custom_range=custom_range %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Featred Page Ends Here -->
+
+
+{% endblock %}
+

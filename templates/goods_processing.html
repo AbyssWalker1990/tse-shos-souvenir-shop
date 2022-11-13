@@ -1,0 +1,108 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="section-heading">
+    <div class="line-dec"></div>
+</div>
+<div class="right-content">
+        <div class="container">
+
+                <div class="row">
+
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                    <form name="city_form" action="{% url 'goods_processing' %}" method="POST">
+                      {% csrf_token %}
+                    <label for="cities">Виберіть місто:</label>
+                    <select class="search--select" style="min-width: 200px;" value="{{city}}" name="city" id="cities">
+                        {% if city %}
+                        <option>{{city}}</option>
+                        {% else %}
+                      {% for city in city_list %}
+                      <option>{{city}}</option>
+                      {% endfor %}
+                        {% endif %}
+                    </select>
+                      {% if city == "" %}
+                    <input type="submit" value="Обрати">
+                      {% else %}
+                      <a href="{% url 'goods_processing' %}">Вибрати інше</a>
+                      {% endif %}
+
+                    </form>
+                      <hr>
+                    <form name="order-form" action="{% url 'goods_processing' %}" method="POST">
+                      {% csrf_token %}
+                    <label for="posts">Виберіть відділення Нової Пошти:</label>
+                    <select class="search--select" name="posts" id="posts" style="min-width: 300px; width: 100%;">
+                      {% if posts_list %}
+                      {% for post in posts_list %}
+                      <option>{{post}}</option>
+                      {% endfor %}
+                      {% else %}
+                      <option>Спочатку оберіть місто</option>
+                      {% endif %}
+                    </select>
+                      <input  type="hidden" name="selected-city" value="{{city}}" style="width: 100%;">
+
+                    <label> Ім'я отримувача</label>
+                      {% if profile.first_name != None %}
+                    <input type="text" name="name" value="{{profile.first_name}}" style="width: 100%;">
+                      {% else %}
+                    <input type="text" name="name" value="" style="width: 100%;">
+                      {% endif %}
+
+                      <label> Фамілія отримувача</label>
+                      {% if profile.second_name != None %}
+                    <input type="text" name="surname" value="{{profile.second_name}}"style="width: 100%;">
+                      {% else %}
+                      <input type="text" name="surname" value=""style="width: 100%;">
+                      {% endif %}
+
+
+                      <label> По батькові</label>
+                      {% if profile.father_name != None %}
+                    <input type="text" name="father_name" value="{{profile.father_name}}" style="width: 100%;">
+                      {% else %}
+                    <input type="text" name="father_name" value="" style="width: 100%;">
+                      {% endif %}
+
+                      <label>Номер телефону</label>
+                    <input type="text" name="phone" style="width: 100%;">
+                      <label>Електронна скринька</label>
+                    <input type="text" name="email" value="{{profile.email}}" style="width: 100%;">
+
+                      {% for message in messages %}
+                      <p style="font-size: 1.3em; color: #a41515">{{message}}</p>
+                      {% endfor %}
+
+                    <input type="submit" value="Обрати">
+                    </form>
+                    </div>
+
+                    <div class="col-md-3">
+                        <fieldset>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

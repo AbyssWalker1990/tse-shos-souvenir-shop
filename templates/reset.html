@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<div class="section-heading">
+  <div class="line-dec"></div>
+</div>
+
+<div class="right-content">
+  <div class="container">
+    <form id="contact"  method="POST">
+      <div class="row">
+        {% csrf_token %}
+
+        <div class="col-md-2">
+          <fieldset>
+          </fieldset>
+        </div>
+
+        <div class="col-md-8">
+          <fieldset style="text-align:center;">
+            <h3>Enter new password</h3>
+
+            <p>
+                Будь-ласка, введіть ваш новий пароль двічі, щоб переконатися що все введено корректно
+            </p>
+            <br>
+
+            <form class="form" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input class="button" type="submit" value="Підтвердити" />
+            </form>
+
+
+          </fieldset>
+        </div>
+
+        <div class="col-md-2">
+          <fieldset>
+          </fieldset>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

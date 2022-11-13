@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="content--wrapper">
+
+<div class="client--card">
+
+    <p>{{card.client}}</p>
+    <br>
+    <p>{{card.created}}</p>
+      <br>
+    <p>{{card.surname}} {{card.name}} {{card.father_name}}</p>
+      <br>
+    <p>Телефон: {{card.phone_number}}, електронна скринька: {{card.email}}</p>
+      <br>
+   <p>Місто: {{card.city}}, відділення: {{card.mail_post}}</p>
+      {% for i in card.goods.all %}
+      {% if i.status == "DONE" %}
+        <p>{{i}} - {{i.count}} шт, сума = {{i.total_price}}</p>
+      {% endif %}
+
+      {% endfor %}
+     <p>Всього до сплати: {{card.total}}</p>
+      <p>Статус замовлення: {{card.get_status_display}}</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock content %}

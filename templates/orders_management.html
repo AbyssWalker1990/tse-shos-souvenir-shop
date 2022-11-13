@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="section-heading">
+  <div class="line-dec"></div>
+</div>
+<div class="right-content">
+  <div class="container">
+    {% for card in cards %}
+    <p>{{card.client}}</p>
+    <p>{{card.created}}</p>
+    <p>{{card.surname}} {{card.name}} {{card.father_name}}</p>
+    <p>Телефон: {{card.phone_number}}, електронна скринька: {{card.email}}</p>
+    <p>Місто: {{card.city}}, відділення: {{card.mail_post}}</p>
+      {% for i in card.goods.all %}
+      {% if i.status == "DONE" %}
+        <p>{{i}} - {{i.count}} шт, сума = {{i.total_price}}</p>
+      {% endif %}
+
+      {% endfor %}
+     <p>Всього до сплати: {{card.total}}</p>
+      <p>Статус замовлення: {{card.get_status_display}}</p>
+
+    <form  action="{% url 'orders_management' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="order_id" value="{{card.id}}">
+    <label >Змінити статус:</label>
+    <select class="search--select" name="status">
+      <option></option>
+      <option>В обробці</option>
+      <option>Готується до відправки</option>
+      <option>Відправлено</option>
+      <option>Отримано</option>
+
+    </select>
+    <input type="submit" value="Обрати">
+
+
+
+    </form>
+
+    <hr>
+    {% endfor %}
+  </div>
+
+
+
+</div>
+  {% endblock %}

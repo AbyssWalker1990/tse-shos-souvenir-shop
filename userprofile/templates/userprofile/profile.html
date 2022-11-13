@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="section-heading">
+  <div class="line-dec"></div>
+</div>
+<div class="right-content">
+  <div class="container">
+
+    <div class="row">
+
+
+      <div class="col-md-4">
+        <fieldset>
+        </fieldset>
+      </div>
+
+      <div class="col-md-4">
+        <fieldset style="text-align:center;">
+          <p>Перевірте ваші контактні дані:</p>
+          <hr>
+          {% if user_id.second_name %}
+          <p><strong>Ім'я: </strong>{{user_id.first_name}}</p>
+          {% else %}
+          <p><strong>Ім'я: </strong>Не вказано</p>
+          {% endif %}
+
+
+          {% if user_id.second_name %}
+          <p><strong>Прізвище: </strong>{{user_id.second_name}}</p>
+          {% else %}
+          <p><strong>Прізвище: </strong>Не вказано</p>
+          {% endif %}
+
+          {% if user_id.father_name %}
+          <p><strong>По батькові: </strong>{{user_id.father_name}}</p>
+          {% else %}
+          <p><strong>По батькові: </strong>Не вказано</p>
+          {% endif %}
+
+          {% if user_id.email %}
+          <p><strong>Електронна скринька: </strong>{{user_id.email}}</p>
+          {% else %}
+          <p><strong>Електронна скринька: </strong>Не вказано</p>
+          {% endif %}
+          <hr>
+
+          <a href="{% url 'edit_account' user.profile.id %}">Редагувати профіль</a>
+        </fieldset>
+      </div>
+
+      <div class="col-md-4">
+        <fieldset>
+        </fieldset>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock content %}

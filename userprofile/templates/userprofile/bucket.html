@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="content--wrapper">
+{% for product in order_products %}
+<div class="order-prod-container">
+    <div class="img--container">
+        <img src="{{ product.product_id.featured_img.url }}" />
+    </div>
+    <div class="name--container">
+        {{ product.product_id.name }}
+    </div>
+    <div class="count--container">
+        {{ product.count }} x {{product.product_id.price}}
+        <form action="{% url 'delete_item' product.id %}" method="POST">
+            {% csrf_token %}
+        <button type="submit" name="{{product.id}}">Видалити</button>
+        </form>
+
+        <form action="{% url 'increase_item' product.id %}" method="POST">
+            {% csrf_token %}
+        <button type="submit" name="{{product.id}}">+</button>
+        </form>
+
+        <form action="{% url 'decrease_item' product.id %}" method="POST">
+            {% csrf_token %}
+        <button type="submit" name="{{product.id}}">-</button>
+        </form>
+    </div>
+    <div class="totalprice--container">
+        {{ product.total_price }}
+    </div>
+</div>
+    {% endfor %}
+    <div class="order-prod-container">
+        <h2>Разом до сплати: {{total_sum}}</h2>
+    </div>
+
+    <a href="{% url 'goods_processing' %}" id="bucket-button">ОФОРМИТИ</a>
+
+        <div>
+        {% if order_cards %}
+            {% for card in order_cards %}
+         <div>
+             <p>{{card.created|date:'Y-m-d'}}  сума = {{card.total}}
+                 статус: {{card.status}} <a href="{% url 'user_order' card.id%}">Детальніше</a></p>
+
+
+
+         </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+</div>
+
+
+
+
+
+{% endblock content %}
