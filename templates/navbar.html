@@ -1,63 +1,77 @@
 {% load static %}
 
-<div id="pre-header">
+<div id="pre-header" class="bg-primary">
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-primary">LOL</button>
-        <span>Слава Україні!</span>
-        <form id="searchForm" class="search--form" method="GET" action="{% url 'search_goods' %}">
-          <input type="text" class="search-value" placeholder="Введіть пошуковий запит" name="search_query" />
-          <input type="submit" class="search--submit" value="Пошук">
+      <div class="col-md-3">
+        <h4 class="text-light d-flex ms-auto">Слава Україні!</h4>
+      </div>
+      <div class="col-md-9">
+        <form id="searchForm" class="search--form form-horizontal py-3" method="GET" action="{% url 'search_goods' %}">
+          <div class="input-group">
+            <input type="text" class="search-value form-control" placeholder="Введіть пошуковий запит" name="search_query" />
+            <button type="submit" class="search--submit btn btn-outline-light">Пошук</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-  <div class="container">
-    <a class="navbar-brand" href="#"><img src='{% static "images/header-logo.png" %}' alt=""></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
-          <a class="nav-link" href="{% url 'goods' %}">Головна
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'categories' %}">Категорії</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">Інформація</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'contacts' %}">Контакти</a>
-        </li>
-        {% if request.user.is_authenticated %}
-        <li class="nav-item">
+  <!-- NAVBAR -->
+  <section id="navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container nav-cont" >
+        
+        <a class="py-4 ms-2 logo-area" href="#"><img src='{% static "images/header-logo.png" %}' alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mx-auto"  id="navbarResponsive">
+          <ul class="navbar-nav ms-auto text-center">
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'goods' %}">Головна
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'categories' %}">Категорії</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">Інформація</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contacts' %}">Контакти</a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+    
+              <a class="nav-link" href="{% url 'profile' user.profile.id %}">Профіль</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Вийти</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'bucket' user.profile.id %}">Кошик</a>
+            </li>
+              {% else %}
+            <li>
+              <a class="nav-link" href="{% url 'login' %}">Увійти</a>
+            </li>
+            {% endif %}
+            {% if request.user.is_superuser %}
+            <li>
+              <a class="nav-link" href="{% url 'orders_management' %}">Замовлення</a>
+            </li>
+            {% endif %}
+    
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-          <a class="nav-link" href="{% url 'profile' user.profile.id %}">Профіль</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Вийти</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'bucket' user.profile.id %}">Кошик</a>
-        </li>
-          {% else %}
-          <a class="nav-link" href="{% url 'login' %}">Увійти</a>
-        {% endif %}
-        {% if request.user.is_superuser %}
-          <a class="nav-link" href="{% url 'orders_management' %}">Замовлення</a>
-        {% endif %}
-
-        </li>
-      </ul>
-    </div>
+  </section>
   </div>
-</nav>
+
+
+

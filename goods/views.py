@@ -12,6 +12,8 @@ import copy
 # View for main page
 def goods(request):
     products = Product.objects.all()
+    # products = products[0:3]
+    print(products)
     context = {'products': products}
     return render(request, 'goods/goods.html', context)
 

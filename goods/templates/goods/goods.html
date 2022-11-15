@@ -1,44 +1,60 @@
 {% extends 'main.html' %}
 {% load static %}
 
+
 {% block content %}
-    <div class="banner">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
+<!-- BANNER -->
+<section id="mybanner">
+<div class="d-block" height="600px" width="100%">
+  <!-- <img src="{% static 'images/banner-bg.jpg' %}" alt="" class="img-fluid"> -->
+</div>
+</section>
 
-          </div>
+<!-- CAROUSEL -->
+<section id="carousel-lg py-4">
+  <div class="container" height="300px">
+    <div class="owl-carousel owl-theme">
+      {% for product in products %}
+      <div class="card py-2 my-2 bg-light">
+        <a href="{% url 'goods_article' product.id %}">
+          <img src="{% static product.featured_img.url %}" class="card-img-top" alt="...">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <h6 class="card-subtitle text-muted">{{product.price}}</h6>
         </div>
       </div>
+      {% endfor %}
     </div>
+  </div>
+</section>
 
-    <!-- Featured Starts Here -->
-    <div class="featured-items">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <div class="line-dec"></div>
-              <h1>Featured Items</h1>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="owl-carousel owl-theme">
-
-              {% for product in products %}
-              <a href="{% url 'goods_article' product.id %}">
-                <div class="featured-item">
-                  <img src="{% static product.featured_img.url %}" alt="Item 9">
-                  <h4>{{product.name}}</h4>
-                  <h6>{{product.price}}</h6>
-                </div>
-              </a>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- SHORT-INFO -->
+<section id="short-info">
+  <div class="background-wrapper bg-primary mt-5 py-3">
+    <div class="container text-center py-3 px-5">
+      <h1 class="text-white">Subscribe on PIXIE now!</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae debitis distinctio architecto quia consectetur expedita accusantium doloremque sapiente esse sunt. At perferendis maiores beatae accusamus.</p>
     </div>
-    <!-- Featred Ends Here -->
+  </div>
+</section>
 
 {% endblock %}
+        <!-- <div class="owl-carousel owl-theme">
+
+          {% for product in products %}
+          <a href="{% url 'goods_article' product.id %}">
+            <div class="featured-item">
+              <img src="{% static product.featured_img.url %}" alt="Item 9">
+              <h4>{{product.name}}</h4>
+              <h6>{{product.price}}</h6>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+Featred Ends Here -->
+

@@ -1,3 +1,87 @@
-// $primary: #fff435;
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
 
-@import '../node_modules/bootstrap/scss/bootstrap.scss'
+
+
+#navbarResponsive {
+  border-top: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+#navigation {
+  li {
+    a {
+      font-size: 1.2rem;
+      color: #000;
+      font-weight: bold;
+      margin-left: 10px;
+
+    }
+
+    a:hover {
+      color: $primary;
+      transition: 0.9s;
+    }
+
+  }
+}
+
+#mybanner {
+  position: relative;
+  height: 500px;
+  background: url(../images/banner-bg.jpg);
+  background-position: center center;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  #pre-header {
+    h4 {
+      justify-content: center;
+      margin-top: 5px !important;
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-brand {
+    position: relative;
+    width: 100%;
+  }
+
+  .nav-cont {
+    display: flex !important;
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  a.logo-area {
+    display: flex !important;
+    margin: 0 auto !important;
+  }
+
+}
+
+@media (max-width: 992px) {
+  #mybanner {
+    height: 300px;
+  }
+
+  #navigation {
+    li {
+      border-top: 1px rgba(0, 0, 0, 0.1) solid;
+    }
+
+    li:hover {
+      background-color: $primary;
+      transition: 1.2s;
+    }
+
+    a:hover {
+      color: #000 !important;
+    }
+
+  }
+}
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
