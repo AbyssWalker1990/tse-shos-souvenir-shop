@@ -26,28 +26,28 @@
 <div class="footer">
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
-        <div class="logo">
-          <img src='{% static "images/header-logo.png" %}' alt="">
+      <div class="col-md-12 mt-5 mb-3">
+        <div class="logo d-flex">
+          <img class="mx-auto" src='{% static "images/header-logo.png" %}' alt="">
         </div>
       </div>
-      <div class="col-md-12">
-        <div class="footer-menu">
-          <ul>
-            <li><a href="{% url 'goods' %}">Головна</a></li>
-            <li><a href="{% url 'categories' %}">Категорії</a></li>
-            <li><a href="{% url 'contacts' %}">Контакти</a></li>
-            <li><a href="{% url 'about' %}">Про нас</a></li>
+      <div class="col-md-12 my-3">
+        <div class="footer-menu d-flex">
+          <ul class="nav mx-auto">
+            <li class="nav-item"><a class="nav-link text-muted" href="{% url 'goods' %}">Головна</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="{% url 'categories' %}">Категорії</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="{% url 'contacts' %}">Контакти</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="{% url 'about' %}">Про нас</a></li>
           </ul>
         </div>
       </div>
-      <div class="col-md-12">
-        <div class="social-icons">
-          <ul>
-            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+      <div class="col-md-12 my-3">
+        <div class="social-icons d-flex">
+          <ul class="nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-facebook"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-twitter"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-linkedin"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-rss"></i></a></li>
           </ul>
         </div>
       </div>
@@ -61,10 +61,10 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="copyright-text">
-          <p>Copyright &copy; 2022 Це Щось!
+        <div class="copyright-text text-center">
+          <p class="lead">Copyright &copy; 2022 Це Щось!
 
-            - Розробник: <a rel="nofollow" href="https://www.facebook.com/tooplate">Бордіян Володимир</a></p>
+            - Розробник: <a class="text-primary text-decoration-none" rel="nofollow" href="https://www.facebook.com/tooplate">Бордіян Володимир</a></p>
         </div>
       </div>
     </div>
@@ -107,21 +107,22 @@
   let pageLinks = document.getElementsByClassName('page-link')
 
   // ENSURE SEARCH FORM EXISTS
-  if(searchForm){
-    for(let i=0; pageLinks.length > i; i++){
-      pageLinks[i].addEventListener('click', function (e) {
-        e.preventDefault()
-        // GET THE DATA ATTRIBUTE
-        let page = this.dataset.page
-        console.log('PAGE: ', page)
-        // ADD HIDDEN SEARCH INPUT TO FORM
-        searchForm.innerHTML += `<input value=${page} name="page" hidden/>`
+  // if(searchForm){
+  //   console.log('SEARCH')
+  //   for(let i=0; pageLinks.length > i; i++){
+  //     pageLinks[i].addEventListener('click', function (e) {
+  //       e.preventDefault()
+  //       // GET THE DATA ATTRIBUTE
+  //       let page = this.dataset.page
+  //       console.log('PAGE: ', page)
+  //       // ADD HIDDEN SEARCH INPUT TO FORM
+  //       searchForm.innerHTML += `<input value=${page} name="page" hidden/>`
 
-        // SUBMIT FORM
-        searchForm.submit()
-      })
-    }
-  }
+  //       // SUBMIT FORM
+  //       searchForm.submit()
+  //     })
+  //   }
+  // }
   </script>
 
 </body>

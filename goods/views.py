@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product, Category, OrderProduct, OrderCard
 from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
-from .utils import paginateProjects, search_product, paginateProducts, nova_poshta_cities, nova_poshta_posts
+from .utils import paginate_categories, search_product, paginateProducts, nova_poshta_cities, nova_poshta_posts
 from .signals import delete_bucket_item
 import copy
 
@@ -51,7 +51,7 @@ def goods_article(request, pk):
 # View for ALL categories
 def categories(request):
     goods_category = Category.objects.all()
-    custom_range, categories = paginateProjects(request, goods_category, 3)
+    custom_range, categories = paginate_categories(request, goods_category, 3)
 
     context = {
         'categories': categories,
@@ -76,7 +76,7 @@ def product_category(request, pk):
             products = products.order_by('-created')
             print('new')
     else:
-        custom_range, products = paginateProducts(request, products, 20)
+        custom_range, products = paginateProducts(request, products, 5)
 
     if request.method == "GET":
         print(request.GET.get('page'))

@@ -33,6 +33,13 @@
   background-size: cover;
 }
 
+.footer-menu {
+  a:hover {
+    color: $primary  !important;
+    transition: 0.9s !important;
+  }
+}
+
 @media (max-width: 768px) {
   #pre-header {
     h4 {

@@ -4,7 +4,7 @@ from django.db.models import Q
 import requests
 
 
-def paginateProjects(request, categories, results):
+def paginate_categories(request, categories, results):
     page = request.GET.get('page')
 
     paginator = Paginator(categories, results)
@@ -60,17 +60,18 @@ def paginateProducts(request, products, results):
 
 def search_product(request):
     search_query = ''
+    products = []
 
     if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
+        tags = Tag.objects.filter(name__icontains=search_query)
 
-    tags = Tag.objects.filter(name__icontains=search_query)
-
-    products = Product.objects.distinct().filter(
-        Q(name__icontains=search_query) |
-        Q(description__icontains=search_query) |
-        Q(tags__in=tags)
-    )
+        products = Product.objects.distinct().filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(tags__in=tags)
+        )
+    print('search: ', products)
 
     return products, search_query
 
