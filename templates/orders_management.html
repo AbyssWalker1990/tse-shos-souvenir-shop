@@ -5,46 +5,61 @@
 <div class="section-heading">
   <div class="line-dec"></div>
 </div>
-<div class="right-content">
+
   <div class="container">
-    {% for card in cards %}
-    <p>{{card.client}}</p>
-    <p>{{card.created}}</p>
-    <p>{{card.surname}} {{card.name}} {{card.father_name}}</p>
-    <p>Телефон: {{card.phone_number}}, електронна скринька: {{card.email}}</p>
-    <p>Місто: {{card.city}}, відділення: {{card.mail_post}}</p>
-      {% for i in card.goods.all %}
-      {% if i.status == "DONE" %}
-        <p>{{i}} - {{i.count}} шт, сума = {{i.total_price}}</p>
-      {% endif %}
+    <div class="accordion" id="accordionOrder">
+      {% for card in cards %}
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ID{{card.id}}"  aria-controls="ID{{card.id}}">
+            {{card.created}}/{{card.surname}}/{{card.get_status_display}}
+          </button>
+        </h2>
+        <div id="ID{{card.id}}" class="accordion-collapse collapse"  data-bs-parent="#accordionOrder">
+          <div class="accordion-body bg-light list-group">
+            <li class="list-group-item">{{card.client}}</li>
+            <li class="list-group-item">{{card.created}}</li>
+            <li class="list-group-item">{{card.surname}} {{card.name}} {{card.father_name}}</li>
+            <li class="list-group-item">Телефон: {{card.phone_number}}, електронна скринька: {{card.email}}</li>
+            <li class="list-group-item">Місто: {{card.city}}, відділення: {{card.mail_post}}</li>
+            {% for i in card.goods.all %}
+            {% if i.status == "DONE" %}
+              <li class="list-group-item"><a class="text-decoration-none text-primary"href="{% url 'goods_article' i.product_id.id %}">{{i}}</a> - {{i.count}} шт, сума = {{i.total_price}}</li>
+            {% endif %}
 
+            {% endfor %}
+            <li class="list-group-item">Всього до сплати: {{card.total}}</li>
+            <li class="list-group-item">Статус замовлення: {{card.get_status_display}}</li>
+
+            <form  action="{% url 'orders_management' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="order_id" value="{{card.id}}">
+
+
+
+              <div class="input-group">
+                <span class="input-group-text">Змінити статус:</span>
+
+                <select class="form-select" name="status">
+                  <option></option>
+                  <option>В обробці</option>
+                  <option>Готується до відправки</option>
+                  <option>Відправлено</option>
+                  <option>Отримано</option>
+                </select>
+
+                <input type="submit" value="Обрати" class="btn btn-primary">
+              </div>
+
+          
+
+
+            </form>
+            <hr>
+        </div>
+      </div>
       {% endfor %}
-     <p>Всього до сплати: {{card.total}}</p>
-      <p>Статус замовлення: {{card.get_status_display}}</p>
-
-    <form  action="{% url 'orders_management' %}" method="POST">
-      {% csrf_token %}
-      <input type="hidden" name="order_id" value="{{card.id}}">
-    <label >Змінити статус:</label>
-    <select class="search--select" name="status">
-      <option></option>
-      <option>В обробці</option>
-      <option>Готується до відправки</option>
-      <option>Відправлено</option>
-      <option>Отримано</option>
-
-    </select>
-    <input type="submit" value="Обрати">
-
-
-
-    </form>
-
-    <hr>
-    {% endfor %}
+    </div>
   </div>
-
-
-
 </div>
-  {% endblock %}
+{% endblock %}

@@ -23,33 +23,39 @@
 
     <div class="featured container no-gutter">
 
-        <div class="row posts">
+      <div class="section" id="category-goods">
+        <div class="container">
+          <div class="row">
             {% for product in products %}
-            <div id="1" class="item new col-md-4">
-              <a href="{% url 'goods_article' product.id %}">
-                <div class="featured-item">
-                  <img src="{{product.featured_img.url}}" alt="">
-                  <h4>{{product.name}}</h4>
-
+            <div class="col-sm-6 col-md-3 col-lg-2">
+              <div class="card my-3 mx-auto text-center"  style="width: 100%;">
+                <a href="{% url 'goods_article' product.id %}">
+                  <img class="img-fluid" src="{{product.featured_img.url}}" alt="" class="card-img-top">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title"><a class="text-decoration-none fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
+                  <p>{{product.price}} грн.</p>
                 </div>
-              </a>
+              </div>
             </div>
             {% endfor %}
-
+          </div>
         </div>
+      </div>
+
     </div>
 
 <div class="page-navigation">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
-
+          <div class="col-12 justify-content-center d-flex">
+            
               {% include 'pagination.html' with queryset=products custom_range=custom_range %}
-
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    
     <!-- Featred Page Ends Here -->
 
 {% endblock %}

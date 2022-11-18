@@ -16,7 +16,7 @@
       </div>
 
       <div class="col-md-4">
-        <fieldset style="text-align:center;">
+        <fieldset style="text-align:center;" class="d-grid">
           <p>Перевірте ваші контактні дані:</p>
           <hr>
           {% if user_id.second_name %}
@@ -45,7 +45,7 @@
           {% endif %}
           <hr>
 
-          <a href="{% url 'edit_account' user.profile.id %}">Редагувати профіль</a>
+          <a class="btn btn-primary btn-lg" href="{% url 'edit_account' user.profile.id %}">Редагувати профіль</a>
         </fieldset>
       </div>
 

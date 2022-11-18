@@ -11,32 +11,26 @@
           <div class="col-md-4 col-sm-12">
             <div class="section-heading">
               <div class="line-dec"></div>
-              <h1>Featured Items</h1>
+              <h1>Категорії: </h1>
             </div>
-          </div>
-          <div class="col-md-8 col-sm-12">
-
           </div>
         </div>
       </div>
     </div>
 
     <div class="featured container no-gutter">
-
-        <div class="row posts">
-            {% for category in categories %}
-            <div id="1" class="item new col-md-4">
-              <a href="{% url 'product_category' category.id%}">
-                <div class="featured-item">
-                  <img src="{{category.featured_img.url}}" alt="">
-                  <h4>{{category.name}}</h4>
-
-                </div>
+      <div class="row posts">
+          {% for category in categories %}
+          <div id="1" class="item new col-md-4">
+            <div class="card text-center" width="100%">
+              <a class="text-decoration-none" href="{% url 'product_category' category.id%}">
+                <img class="img img-fluid" src="{{category.featured_img.url}}" alt="">
+                <h4 >{{category.name}}</h4>
               </a>
-            </div>
-            {% endfor %}
-
-        </div>
+            </div>              
+          </div>
+          {% endfor %}
+      </div>
     </div>
 
     <div class="page-navigation my-4">

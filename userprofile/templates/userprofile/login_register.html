@@ -3,47 +3,46 @@
 {% block content %}
 <div class="contact-page">
 
-    <div class="section-heading">
-        <div class="line-dec"></div>
-    </div>
+  <div class="section-heading">
+    <div class="line-dec"></div>
+  </div>
 
+  <div class="right-content">
+    <div class="container">
+      <form id="contact" action="{% url 'login' %}" method="POST">
+        <div class="row">
+          {% csrf_token %}
 
-    <div class="right-content">
-        <div class="container">
-            <form id="contact" action="{% url 'login' %}" method="POST">
-                <div class="row">
-                    {% csrf_token %}
+          <div class="col-md-4">
+              <fieldset>
+              </fieldset>
+          </div>
 
-                    <div class="col-md-4">
-                        <fieldset>
-                        </fieldset>
-                    </div>
-
-                    <div class="col-md-4">
-                        <fieldset style="text-align:center;">
-                            {% if messages %}
-                            <ul class="messages">
-                                {% for message in messages %}
-                                <li>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
-                            <input type="text" name="username" class="form-control" id="name" placeholder="Ім'я користувача"/>
-                            <input type="password" name="password" class="form-control" id="email" placeholder="Введіть пароль"/>
-                            <button type="submit" id="form-submit" class="button">Увійти!</button>
-                            <p>Не маєте облікового запису?  <a href="{% url 'register' %}">Зареєструватися!</a></p>
-                        </fieldset>
-                    </div>
-
-                    <div class="col-md-4">
-                        <fieldset>
-                        </fieldset>
-                    </div>
-
-                </div>
-            </form>
+        <div class="col-md-4">
+          <fieldset style="text-align:center;" class="my-4">
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+            <input type="text" name="username" class="form-control" id="name" placeholder="Ім'я користувача"/>
+            <input type="password" name="password" class="form-control mt-3" id="email" placeholder="Введіть пароль"/>
+            <button type="submit" id="form-submit" class="btn btn-primary mt-2">Увійти!</button>
+            <p>Не маєте облікового запису?  <a href="{% url 'register' %}">Зареєструватися!</a></p>
+          </fieldset>
         </div>
+
+          <div class="col-md-4">
+            <fieldset>
+            </fieldset>
+          </div>
+
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 {% endblock content %}

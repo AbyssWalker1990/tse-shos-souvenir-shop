@@ -58,6 +58,8 @@ class OrderProductForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update(
-                {'class': 'count-form'}
+                {'class': 'form-control w-25 form-control-color',
+                 'id': 'goods-count-input',
+                 }
             )
 

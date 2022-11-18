@@ -76,7 +76,7 @@ def product_category(request, pk):
             products = products.order_by('-created')
             print('new')
     else:
-        custom_range, products = paginateProducts(request, products, 5)
+        custom_range, products = paginateProducts(request, products, 12)
 
     if request.method == "GET":
         print(request.GET.get('page'))
