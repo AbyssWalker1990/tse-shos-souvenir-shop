@@ -4,6 +4,7 @@ from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
 from .utils import paginate_categories, search_product, paginateProducts, nova_poshta_cities, nova_poshta_posts
 from .signals import delete_bucket_item
+from userprofile.views import _get_session_id
 import copy
 
 
@@ -23,19 +24,41 @@ def goods_article(request, pk):
     product_article = Product.objects.get(id=pk)
     featured_products = Product.objects.all().filter(
         prod_category=product_article.prod_category)
-    user_profile = request.user.profile
-    profile_id = user_profile.id
+    try:
+        user_profile = request.user.profile
+        profile_id = user_profile.id
+    except AttributeError:  # for anonymous users
+        pass
     form = OrderProductForm()
 
     if request.method == 'POST':
         form = OrderProductForm(request.POST)
         if form.is_valid():
-            order_product = OrderProduct(
-                client=user_profile,
-                product_id=product_article,
-                count=form.cleaned_data['count'],
-                status='PROCESSING',
-            )
+            try:
+                order_product = OrderProduct(
+                    client=user_profile,
+                    product_id=product_article,
+                    count=form.cleaned_data['count'],
+                    status='PROCESSING',
+                )
+            except:
+                # for non-users just create order card with session_id
+                try:
+                    card = OrderCard.objects.get(session_id=_get_session_id(request))
+                except OrderCard.DoesNotExist:
+                    card = OrderCard.objects.create(
+                        session_id=_get_session_id(request)
+                    )
+
+                order_product = OrderProduct(
+                    session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
+                    product_id=product_article,
+                    count=form.cleaned_data['count'],
+                    status='PROCESSING',
+                )
+                order_product.save()
+                return redirect('non-user-bucket')
+
             order_product.save()
         return redirect('bucket', profile_id)
 

@@ -61,6 +61,9 @@ class OrderProduct(models.Model):
 
     )
     client = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    # Bounding for non-authorized user
+    session_id = models.ForeignKey('OrderCard', on_delete=models.CASCADE, null=True, blank=True)
+
     product_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING, null=True, blank=True)
     count = models.SmallIntegerField(default=1, null=True, blank=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="PROCESSING")
@@ -86,6 +89,7 @@ class OrderCard(models.Model):
     )
 
     client = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    session_id = models.CharField(max_length=100, null=True, blank=True)
     goods = models.ManyToManyField(OrderProduct, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
     mail_post = models.CharField(max_length=200, null=True, blank=True)

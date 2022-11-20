@@ -6,6 +6,7 @@ from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
 from goods.models import OrderProduct, OrderCard
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -92,7 +93,6 @@ def edit_account(request, pk):
     return render(request, 'userprofile/edit_account.html', context)
 
 
-@login_required(login_url='login')
 def bucket(request, pk):
     user_id = Profile.objects.get(id=pk)
     user_profile = request.user.profile
@@ -107,6 +107,29 @@ def bucket(request, pk):
     return render(request, 'userprofile/bucket.html', context)
 
 
+
+def _get_session_id(request):
+    current_session = request.session.session_key
+    if not current_session:
+        current_session = request.session.create()
+    return current_session
+
+
+def non_user_bucket(request):
+    try:
+        card = OrderCard.objects.get(session_id=_get_session_id(request))
+    except OrderCard.DoesNotExist:
+        card = OrderCard.objects.create(
+            session_id=_get_session_id(request)
+        )
+    products = OrderProduct.objects.all().filter(session_id=card)
+
+    context = {'card': card,
+               'products': products}
+
+    return render(request, 'userprofile/non-user-bucket.html', context)
+
+
 def delete_item(request, pk):
     product = OrderProduct.objects.get(id=pk)
     user_id = request.user.profile.id
@@ -114,7 +137,10 @@ def delete_item(request, pk):
     return redirect('bucket', user_id)
 
 
-
+def delete_item_non_user(request, pk):
+    product = OrderProduct.objects.get(id=pk)
+    product.delete()
+    return redirect('non-user-bucket')
 
 def increase_item(request, pk):
     product = OrderProduct.objects.get(id=pk)
@@ -122,6 +148,13 @@ def increase_item(request, pk):
     product.count += 1
     product.save()
     return redirect('bucket', user_id)
+
+
+def increase_item_non_user(request, pk):
+    product = OrderProduct.objects.get(id=pk)
+    product.count += 1
+    product.save()
+    return redirect('non-user-bucket')
 
 
 
@@ -134,6 +167,14 @@ def decrease_item(request, pk):
         product.count = 0
     product.save()
     return redirect('bucket', user_id)
+
+def decrease_item_non_user(request, pk):
+    product = OrderProduct.objects.get(id=pk)
+    product.count -= 1
+    if product.count < 0:
+        product.count = 0
+    product.save()
+    return redirect('non-user-bucket')
 
 
 

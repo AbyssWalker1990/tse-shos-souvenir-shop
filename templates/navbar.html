@@ -54,6 +54,9 @@
               <a class="nav-link" href="{% url 'bucket' user.profile.id %}">Кошик</a>
             </li>
               {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'non-user-bucket' %}">Кошик</a>
+            </li>
             <li>
               <a class="nav-link" href="{% url 'login' %}">Увійти</a>
             </li>
@@ -62,9 +65,10 @@
             <li>
               <a class="nav-link" href="{% url 'orders_management' %}">Замовлення</a>
             </li>
+
             {% endif %}
     
-            </li>
+
           </ul>
         </div>
       </div>
