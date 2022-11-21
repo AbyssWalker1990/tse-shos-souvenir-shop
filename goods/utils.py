@@ -1,7 +1,10 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .models import Category, Product, Tag
+from django.shortcuts import redirect, render
+from .models import Category, Product, Tag, OrderProduct, OrderCard
 from django.db.models import Q
 import requests
+from userprofile.forms import OrderProductForm
+from userprofile.views import _get_session_id
 
 
 def paginate_categories(request, categories, results):
@@ -111,3 +114,34 @@ def nova_poshta_posts(request, city):
         posts_list.append(x['Description'])
 
     return posts_list
+
+
+def create_order_product(request, user_profile, profile_id, product_article):
+    form = OrderProductForm(request.POST)
+    if form.is_valid() and request.user.is_authenticated:
+        order_product = OrderProduct(
+            client=user_profile,
+            product_id=product_article,
+            count=form.cleaned_data['count'],
+            status='PROCESSING',
+        )
+        order_product.save()
+        print("Order_product created: ", order_product)
+    else:
+        try:
+            card = OrderCard.objects.get(session_id=_get_session_id(request))
+            print("TRY CARD, ", card)
+        except OrderCard.DoesNotExist:
+            card = OrderCard.objects.create(
+                session_id=_get_session_id(request)
+            )
+        order_product = OrderProduct(
+            session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
+            product_id=product_article,
+            count=form.cleaned_data['count'],
+            status='PROCESSING',
+        )
+        order_product.save()
+        print(order_product)
+        return False
+    return True

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product, Category, OrderProduct, OrderCard
 from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
-from .utils import paginate_categories, search_product, paginateProducts, nova_poshta_cities, nova_poshta_posts
+from .utils import paginate_categories, search_product, paginateProducts, nova_poshta_cities, nova_poshta_posts, create_order_product
 from .signals import delete_bucket_item
 from userprofile.views import _get_session_id
 import copy
@@ -19,56 +19,132 @@ def goods(request):
     return render(request, 'goods/goods.html', context)
 
 
-# View for one item
 def goods_article(request, pk):
+    profile_id = None
     product_article = Product.objects.get(id=pk)
     featured_products = Product.objects.all().filter(
         prod_category=product_article.prod_category)
-    try:
-        user_profile = request.user.profile
-        profile_id = user_profile.id
-    except AttributeError:  # for anonymous users
-        pass
     form = OrderProductForm()
-
-    if request.method == 'POST':
-        form = OrderProductForm(request.POST)
-        if form.is_valid():
-            try:
-                order_product = OrderProduct(
-                    client=user_profile,
-                    product_id=product_article,
-                    count=form.cleaned_data['count'],
-                    status='PROCESSING',
-                )
-            except:
-                # for non-users just create order card with session_id
-                try:
-                    card = OrderCard.objects.get(session_id=_get_session_id(request))
-                except OrderCard.DoesNotExist:
-                    card = OrderCard.objects.create(
-                        session_id=_get_session_id(request)
-                    )
-
-                order_product = OrderProduct(
-                    session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
-                    product_id=product_article,
-                    count=form.cleaned_data['count'],
-                    status='PROCESSING',
-                )
-                order_product.save()
-                return redirect('non-user-bucket')
-
-            order_product.save()
-        return redirect('bucket', profile_id)
-
     context = {
         'product_article': product_article,
         'form': form,
         'featured_products': featured_products,
     }
+    if request.user.is_authenticated:
+        user_profile = request.user.profile
+        profile_id = user_profile.id
+    else:
+        user_profile = None
+        profile_id = None
+    """create_order_products will return True if user is authenticated"""
+    if request.method == 'POST':
+        if create_order_product(request, user_profile, profile_id, product_article):
+            return redirect('bucket', profile_id)
+        else:
+            return redirect('non-user-bucket')
 
+    # if request.user.is_authenticated:
+    #     user_profile = request.user.profile
+    #     profile_id = user_profile.id
+    # else:
+    #     user_profile = None
+    #
+    # if request.method == 'POST':
+    #     form = OrderProductForm(request.POST)
+    #     if form.is_valid() and request.user.is_authenticated:
+    #
+    #         order_product = OrderProduct(
+    #             client=user_profile,
+    #             product_id=product_article,
+    #             count=form.cleaned_data['count'],
+    #             status='PROCESSING',
+    #         )
+    #         order_product.save()
+    #         print("Order_product created: ", order_product)
+    #
+    #     else:
+    #         try:
+    #             card = OrderCard.objects.get(session_id=_get_session_id(request))
+    #             print("TRY CARD, ", card)
+    #         except OrderCard.DoesNotExist:
+    #             card = OrderCard.objects.create(
+    #                 session_id=_get_session_id(request)
+    #             )
+    #
+    #         order_product = OrderProduct(
+    #             session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
+    #             product_id=product_article,
+    #             count=form.cleaned_data['count'],
+    #             status='PROCESSING',
+    #         )
+    #         order_product.save()
+    #         return redirect('non-user-bucket')
+    #     return redirect('bucket', profile_id)
     return render(request, 'goods/goods_article.html', context)
+
+
+# View for one item OLD
+# def goods_article(request, pk):
+#     card = None
+#     product_article = Product.objects.get(id=pk)
+#     featured_products = Product.objects.all().filter(
+#         prod_category=product_article.prod_category)
+#     try:
+#         user_profile = request.user.profile
+#         profile_id = user_profile.id
+#     except AttributeError:  # for anonymous users
+#         print('ATTR ERRER')
+#         user_profile = None
+#         print(user_profile)
+#
+#     form = OrderProductForm()
+#
+#     if request.method == 'POST':
+#         form = OrderProductForm(request.POST)
+#         if form.is_valid():
+#             try:
+#                 order_product = OrderProduct(
+#                     client=user_profile,
+#                     product_id=product_article,
+#                     count=form.cleaned_data['count'],
+#                     status='PROCESSING',
+#                 )
+#             except:
+#                 print("START EXCEPT")
+#                 # for non-users just create order card with session_id
+#                 try:
+#                     card = OrderCard.objects.get(session_id=_get_session_id(request))
+#                     print("TRY CARD, ",card)
+#                 except OrderCard.DoesNotExist:
+#                     card = OrderCard.objects.create(
+#                         session_id=_get_session_id(request)
+#                     )
+#                     card.save()
+#                     print("Card Creation")
+#                     print(card)
+#
+#                 order_product = OrderProduct(
+#                     session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
+#                     product_id=product_article,
+#                     count=form.cleaned_data['count'],
+#                     status='PROCESSING',
+#                 )
+#
+#         order_product.save()
+#         if card:
+#             return redirect('non-user-bucket')
+#         else:
+#             print("NOOO")
+#             print(card)
+#             return redirect('bucket', profile_id)
+#
+#     context = {
+#         'product_article': product_article,
+#         'form': form,
+#         'featured_products': featured_products,
+#     }
+#
+#     return render(request, 'goods/goods_article.html', context)
 
 
 # View for ALL categories
@@ -164,27 +240,47 @@ def goods_processing(request):
                                                              })
 
         else:
-            order_products = OrderProduct.objects.all().filter(client=profile, status="PROCESSING")
+            if request.user.is_authenticated:
+                order_products = OrderProduct.objects.all().filter(client=profile, status="PROCESSING")
+            else:
+                order_card = OrderCard.objects.get(session_id=_get_session_id(request))
+                order_products = OrderProduct.objects.all().filter(session_id=order_card)
             total_sum = 0
             for i in order_products:
                 total_sum += i.total_price
 
-            city = request.POST.get('selected-city')
-            order_card = OrderCard(
-                client=profile,
-                city=request.POST.get('selected-city'),
-                mail_post=request.POST.get('posts'),
-                name=request.POST.get('name'),
-                surname=request.POST.get('surname'),
-                father_name=request.POST.get('father_name'),
-                phone_number=request.POST.get('phone'),
-                email=request.POST.get('email'),
-                total=total_sum
-            )
-            order_card.save()
-            for order in order_products:
-                order_card.goods.add(order)
-            return redirect('order_success')
+            # city = request.POST.get('selected-city')
+            if request.user.is_authenticated:
+                order_card = OrderCard(
+                    client=profile,
+                    city=request.POST.get('selected-city'),
+                    mail_post=request.POST.get('posts'),
+                    name=request.POST.get('name'),
+                    surname=request.POST.get('surname'),
+                    father_name=request.POST.get('father_name'),
+                    phone_number=request.POST.get('phone'),
+                    email=request.POST.get('email'),
+                    total=total_sum
+                )
+                order_card.save()
+                for order in order_products:
+                    order_card.goods.add(order)
+                return redirect('order_success')
+            else:
+                order_card.city = request.POST.get('selected-city')
+                order_card.mail_post = request.POST.get('posts')
+                order_card.name = request.POST.get('name')
+                order_card.surname = request.POST.get('surname')
+                order_card.father_name = request.POST.get('father_name')
+                order_card.phone_number = request.POST.get('phone')
+                order_card.email = request.POST.get('email')
+                order_card.total = total_sum
+                order_card.save()
+                for order in order_products:
+                    order_card.goods.add(order)
+                    print(order)
+                order_card.save()
+                return redirect('order_success')
 
     context = {'city_list': city_list,
                'posts_list': posts_list,
