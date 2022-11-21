@@ -126,22 +126,20 @@ def create_order_product(request, user_profile, profile_id, product_article):
             status='PROCESSING',
         )
         order_product.save()
-        print("Order_product created: ", order_product)
     else:
         try:
-            card = OrderCard.objects.get(session_id=_get_session_id(request))
-            print("TRY CARD, ", card)
+            card = OrderCard.objects.get(session_id=request.session.session_key)
         except OrderCard.DoesNotExist:
             card = OrderCard.objects.create(
                 session_id=_get_session_id(request)
             )
+
         order_product = OrderProduct(
-            session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
+            session_id=OrderCard.objects.get(session_id=request.session.session_key),
             product_id=product_article,
             count=form.cleaned_data['count'],
-            status='PROCESSING',
+            status='DONE',
         )
         order_product.save()
-        print(order_product)
         return False
     return True

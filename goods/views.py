@@ -243,8 +243,10 @@ def goods_processing(request):
             if request.user.is_authenticated:
                 order_products = OrderProduct.objects.all().filter(client=profile, status="PROCESSING")
             else:
-                order_card = OrderCard.objects.get(session_id=_get_session_id(request))
+                order_card = OrderCard.objects.get(session_id=request.session.session_key)
+                print("CARD: ", order_card)
                 order_products = OrderProduct.objects.all().filter(session_id=order_card)
+                print(order_products)
             total_sum = 0
             for i in order_products:
                 total_sum += i.total_price
