@@ -17,7 +17,7 @@
       {% for product in products %}
       <div class="card py-2 my-2 bg-light">
         <a href="{% url 'goods_article' product.id %}">
-          <img src="{% static product.featured_img.url %}" class="card-img-top" alt="...">
+          <img src="{{product.featured_img.url}}" class="card-img-top" alt="...">
         </a>
         <div class="card-body">
           <h5 class="card-title">{{product.name}}</h5>
