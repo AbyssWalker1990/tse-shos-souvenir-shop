@@ -1,7 +1,7 @@
 .idea/
 FOR_ME.txt
 Models.txt
-
+secret.py
 
 # dotenv
 .env
