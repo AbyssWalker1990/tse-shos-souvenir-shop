@@ -87,30 +87,31 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # Database sqlite
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+#
+# # DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
+# Database connect dev
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd8n0ickv81rkf0',
+        'USER': 'zmtddbejmsbhbh',
+        'PASSWORD': '552f326ec48d7c05434be7a9b5ec57c79741c6cccf67f3b8cf9f0690d8150863',
+        'HOST': 'ec2-34-252-216-149.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
 
-# Database connect dev
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd8n0ickv81rkf0',
-#         'USER': 'zmtddbejmsbhbh',
-#         'PASSWORD': '552f326ec48d7c05434be7a9b5ec57c79741c6cccf67f3b8cf9f0690d8150863',
-#         'HOST': 'ec2-34-252-216-149.eu-west-1.compute.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
-
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
 
 
 # Password validation
