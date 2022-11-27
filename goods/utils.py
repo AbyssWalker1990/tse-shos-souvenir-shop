@@ -34,7 +34,7 @@ def paginate_categories(request, categories, results):
     return custom_range, categories
 
 
-def paginateProducts(request, products, results):
+def paginate_products(request, products, results):
     page = request.GET.get('page')
 
     paginator = Paginator(products, results)
