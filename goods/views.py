@@ -21,6 +21,7 @@ def goods(request):
 
 def goods_article(request, pk):
     profile_id = None
+
     product_article = Product.objects.get(id=pk)
     featured_products = Product.objects.all().filter(
         prod_category=product_article.prod_category)
@@ -30,6 +31,10 @@ def goods_article(request, pk):
         'form': form,
         'featured_products': featured_products,
     }
+    # Create session for anonymous user
+    if not request.session or not request.session.session_key:
+        request.session.save()
+
     if request.user.is_authenticated:
         user_profile = request.user.profile
         profile_id = user_profile.id

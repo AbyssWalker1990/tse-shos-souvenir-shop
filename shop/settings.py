@@ -177,5 +177,6 @@ AWS_S3_REGION_NAME = 'eu-north-1'
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 
+
 if os.getcwd() == '/app':
     DEBUG = False
