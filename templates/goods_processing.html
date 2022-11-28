@@ -19,7 +19,9 @@
 
     <!-- SELECT CITY -->
     <div class="input-group">
-      <select class="form-select" style="min-width: 200px;" value="{{city}}" name="city" id="cities">
+      
+      <select class="form-select" style="width: 100%; height: 100px;" value="{{city}}" name="city" id="cities">
+        
         {% if city %}
         <option>{{city}}</option>
         {% else %}
@@ -28,11 +30,11 @@
           {% endfor %}
         {% endif %}
       </select>
-      {% if city == "" %}
+      <!-- {% if city == "" %}
         <input class="btn btn-primary" type="submit" value="Обрати">
       {% else %}
         <a class="btn btn-primary" href="{% url 'goods_processing' %}">Вибрати інше</a>
-      {% endif %}
+      {% endif %} -->
     </div>
     </form>
     <hr>
