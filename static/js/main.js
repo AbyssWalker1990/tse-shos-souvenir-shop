@@ -21,7 +21,7 @@ function sendCurrentCity() {
                 .find((row) => row.startsWith('csrftoken='))
                 ?.split('=')[1];
             // Sending POST request to django
-            fetch(`http://${domain}/test_process/`, {
+            fetch(`https://${domain}/test_process/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': token,
