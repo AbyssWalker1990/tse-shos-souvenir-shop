@@ -11,6 +11,7 @@ $(document).ready(function () {
         }
     });
 });
+
 $('#cities').on('select2:select', function (e) {
     const domain = window.location.host
     let citySelector = null;
@@ -32,7 +33,7 @@ $('#cities').on('select2:select', function (e) {
         .find((row) => row.startsWith('csrftoken='))
         ?.split('=')[1];
     // Sending POST request to django
-    fetch(`http://${domain}/test_process/`, {
+    fetch(`https://${domain}/test_process/`, {
         method: 'POST',
         headers: {
             'X-CSRFToken': token,
