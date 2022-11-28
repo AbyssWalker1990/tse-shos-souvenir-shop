@@ -118,14 +118,18 @@ def _get_session_id(request):
 def non_user_bucket(request):
     try:
         card = OrderCard.objects.get(session_id=_get_session_id(request))
-    except OrderCard.DoesNotExist:
+    except (OrderCard.DoesNotExist, OrderCard.MultipleObjectsReturned):
         card = OrderCard.objects.create(
             session_id=_get_session_id(request)
         )
     products = OrderProduct.objects.all().filter(session_id=card)
+    total_sum = 0
+    for i in products:
+        total_sum += i.total_price
 
     context = {'card': card,
-               'products': products}
+               'products': products,
+               'total_sum': total_sum}
 
     return render(request, 'userprofile/non-user-bucket.html', context)
 

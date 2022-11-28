@@ -3,31 +3,24 @@ function sendCurrentCity() {
     let citySelector = null;
     try {
         citySelector = document.getElementById('cities');
-        console.log(cities);
     } catch {
         console.log('Error');
     }
     if (citySelector) {
-        console.log("CITY");
         citySelector.addEventListener('change', (e) => {
-            console.log("CHANGED")
             const postSelect = document.querySelector('#posts')
             const allPosts = postSelect.querySelectorAll('option')
+            // remove all posts from previous choices
             for (post of allPosts) {
                 post.remove()
             }
+            // get city name and token
             let selectedCity = citySelector.options[citySelector.selectedIndex].text
-            console.log(typeof selectedCity)
-
-
             const token = document.cookie
                 .split('; ')
                 .find((row) => row.startsWith('csrftoken='))
                 ?.split('=')[1];
-            console.log(token);
-            console.log(domain);
-            url = `http://${domain}/test_process/`;
-            console.log(url);
+            // Sending POST request to django
             fetch(`http://${domain}/test_process/`, {
                 method: 'POST',
                 headers: {
@@ -39,46 +32,29 @@ function sendCurrentCity() {
                 .then(response => response.json())
                 .then(data => {
                     let posts = data
-                    const noNeedPost = postSelect.firstElementChild
-                    console.log(typeof posts)
+                    // Add mail posts to select list
                     for (i of posts) {
-                        console.log(i + "\n")
                         const newPost = document.createElement("option")
                         newPost.text = i
                         postSelect.add(newPost)
                     }
 
-                    console.log(postSelect)
-                    console.log(noNeedPost)
+                    // Removing warning option
                     try {
                         if (postSelect.firstElementChild.text == 'Спочатку оберіть місто') {
                             postSelect.firstElementChild.remove()
                         }
                     } catch {
-                        console.log('NOTHING')
+                        console.log('No posts here')
                     }
 
+                    // Add info about not existing posts
                     if (!(postSelect.firstElementChild)) {
                         const emptyPost = document.createElement("option")
                         emptyPost.text = 'Немає працюючих відділень!'
                         postSelect.add(emptyPost)
                     }
-
                 })
-
-
-
-
-
-            // var xhr = new XMLHttpRequest();
-            // xhr.open("POST", `http://${domain}/goods_processing/`, true);
-            // xhr.setRequestHeader('X-CSRFToken', token);
-            // xhr.send(JSON.stringify({ 'city': 'dsfds' }));
-
-            // let data = new FormData();
-            // data.append("city", selectedCity)
-            // data.append("csrfmiddlewaretoken", token)
-            // axios.post(`http://${domain}/test_process/`, data)
         })
 
     } else {

@@ -130,8 +130,8 @@ def goods_processing(request):
     if request.user.is_authenticated:
         profile = request.user.profile
     posts_list = []
+    total_sum = 0
     city_list = nova_poshta_cities(request)
-
 
     if request.POST.get('posts') != None:
         if request.POST.get('phone') == "":
@@ -201,6 +201,7 @@ def goods_processing(request):
                'profile': profile,
                'city': city,
                'messages': messages,
+               'total': total_sum
                }
 
     return render(request, 'goods_processing.html', context)
