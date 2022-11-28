@@ -1,4 +1,7 @@
+import json
+
 from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
 from .models import Product, Category, OrderProduct, OrderCard
 from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
@@ -48,108 +51,7 @@ def goods_article(request, pk):
         else:
             return redirect('non-user-bucket')
 
-    # if request.user.is_authenticated:
-    #     user_profile = request.user.profile
-    #     profile_id = user_profile.id
-    # else:
-    #     user_profile = None
-    #
-    # if request.method == 'POST':
-    #     form = OrderProductForm(request.POST)
-    #     if form.is_valid() and request.user.is_authenticated:
-    #
-    #         order_product = OrderProduct(
-    #             client=user_profile,
-    #             product_id=product_article,
-    #             count=form.cleaned_data['count'],
-    #             status='PROCESSING',
-    #         )
-    #         order_product.save()
-    #         print("Order_product created: ", order_product)
-    #
-    #     else:
-    #         try:
-    #             card = OrderCard.objects.get(session_id=_get_session_id(request))
-    #             print("TRY CARD, ", card)
-    #         except OrderCard.DoesNotExist:
-    #             card = OrderCard.objects.create(
-    #                 session_id=_get_session_id(request)
-    #             )
-    #
-    #         order_product = OrderProduct(
-    #             session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
-    #             product_id=product_article,
-    #             count=form.cleaned_data['count'],
-    #             status='PROCESSING',
-    #         )
-    #         order_product.save()
-    #         return redirect('non-user-bucket')
-    #     return redirect('bucket', profile_id)
     return render(request, 'goods/goods_article.html', context)
-
-
-# View for one item OLD
-# def goods_article(request, pk):
-#     card = None
-#     product_article = Product.objects.get(id=pk)
-#     featured_products = Product.objects.all().filter(
-#         prod_category=product_article.prod_category)
-#     try:
-#         user_profile = request.user.profile
-#         profile_id = user_profile.id
-#     except AttributeError:  # for anonymous users
-#         print('ATTR ERRER')
-#         user_profile = None
-#         print(user_profile)
-#
-#     form = OrderProductForm()
-#
-#     if request.method == 'POST':
-#         form = OrderProductForm(request.POST)
-#         if form.is_valid():
-#             try:
-#                 order_product = OrderProduct(
-#                     client=user_profile,
-#                     product_id=product_article,
-#                     count=form.cleaned_data['count'],
-#                     status='PROCESSING',
-#                 )
-#             except:
-#                 print("START EXCEPT")
-#                 # for non-users just create order card with session_id
-#                 try:
-#                     card = OrderCard.objects.get(session_id=_get_session_id(request))
-#                     print("TRY CARD, ",card)
-#                 except OrderCard.DoesNotExist:
-#                     card = OrderCard.objects.create(
-#                         session_id=_get_session_id(request)
-#                     )
-#                     card.save()
-#                     print("Card Creation")
-#                     print(card)
-#
-#                 order_product = OrderProduct(
-#                     session_id=OrderCard.objects.get(session_id=_get_session_id(request)),
-#                     product_id=product_article,
-#                     count=form.cleaned_data['count'],
-#                     status='PROCESSING',
-#                 )
-#
-#         order_product.save()
-#         if card:
-#             return redirect('non-user-bucket')
-#         else:
-#             print("NOOO")
-#             print(card)
-#             return redirect('bucket', profile_id)
-#
-#     context = {
-#         'product_article': product_article,
-#         'form': form,
-#         'featured_products': featured_products,
-#     }
-#
-#     return render(request, 'goods/goods_article.html', context)
 
 
 # View for ALL categories
@@ -210,6 +112,16 @@ def about(request):
 def contacts(request):
     return render(request, 'contacts.html')
 
+def test_process(request):
+    post_list = []
+    if request.method == "POST":
+        raw_data = json.loads(request.body)
+        city = raw_data.get('city')
+        print(request.POST)
+        print(type(city))
+        print("TEST", city)
+        posts_list = nova_poshta_posts(request, city=city)
+    return JsonResponse(posts_list, safe=False)
 
 def goods_processing(request):
     profile = {}
@@ -220,11 +132,6 @@ def goods_processing(request):
     posts_list = []
     city_list = nova_poshta_cities(request)
 
-    if request.method == 'POST' and city == "":
-        city = request.POST.get('city')
-
-        posts_list = nova_poshta_posts(request, city=city)
-        old_city = copy.copy(city)
 
     if request.POST.get('posts') != None:
         if request.POST.get('phone') == "":
