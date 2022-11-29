@@ -33,7 +33,7 @@ $('#cities').on('select2:select', function (e) {
         .find((row) => row.startsWith('csrftoken='))
         ?.split('=')[1];
     // Sending POST request to django
-    fetch(`https://${domain}/get_mail_posts/`, {
+    fetch(`https://${domain}/get-mail-posts/`, {
         method: 'POST',
         headers: {
             'X-CSRFToken': token,
