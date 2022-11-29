@@ -14,6 +14,5 @@ urlpatterns = [
     path('order_success/', views.order_success, name="order_success"),
     path('orders_management/', views.orders_management, name="orders_management"),
     path('user_order/<str:pk>/', views.user_order, name="user_order"),
-    path('test_process/', views.test_process, name="test_process"),
-
+    path('get-mail-posts/', views.get_mail_posts, name="get-mail-posts"),
 ]

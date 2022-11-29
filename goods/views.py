@@ -100,7 +100,7 @@ def search_goods(request):
     products, search_query = search_product(request)
     print('Products: ', products)
     print(search_query)
-    custom_range, products = paginateProducts(request, products, 500)
+    custom_range, products = paginate_products(request, products, 500)
     context = {'products': products, 'search_query': search_query, 'custom_range': custom_range, }
     return render(request, 'goods/search_page_goods.html', context)
 
@@ -112,14 +112,11 @@ def about(request):
 def contacts(request):
     return render(request, 'contacts.html')
 
-def test_process(request):
+def get_mail_posts(request):
     post_list = []
     if request.method == "POST":
         raw_data = json.loads(request.body)
         city = raw_data.get('city')
-        print(request.POST)
-        print(type(city))
-        print("TEST", city)
         posts_list = nova_poshta_posts(request, city=city)
     return JsonResponse(posts_list, safe=False)
 
