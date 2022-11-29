@@ -18,6 +18,27 @@
       </div>
     </div>
 
+    {% if request.user.is_superuser %}
+    <section id="admin-category">
+      <div class="wrapper bg-warning py-4">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col">
+              <p class="lead">Адмін панель</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-lg btn-success">
+                Додати категорію
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
     <div class="featured container no-gutter">
       <div class="row posts">
           {% for category in categories %}
