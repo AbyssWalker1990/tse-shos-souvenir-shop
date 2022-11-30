@@ -104,8 +104,6 @@ def create_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
-            if len(request.FILES) != 0:
-                form.featured_img = request.FILES['featured_img']
             form.save()
             return redirect('categories')
 
