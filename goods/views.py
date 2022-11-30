@@ -5,9 +5,11 @@ from django.http import JsonResponse, HttpResponse
 from .models import Product, Category, OrderProduct, OrderCard
 from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
-from .utils import paginate_categories, search_product, paginate_products, nova_poshta_cities, nova_poshta_posts, create_order_product
+from .utils import paginate_categories, search_product, paginate_products, nova_poshta_cities, nova_poshta_posts, \
+    create_order_product
 from .signals import delete_bucket_item
 from userprofile.views import _get_session_id
+from .forms import CategoryForm
 import copy
 
 
@@ -96,6 +98,12 @@ def product_category(request, pk):
     return render(request, 'goods/product_category.html', context)
 
 
+def create_category(request):
+    form = CategoryForm()
+    context = {'form': form, 'category': None}
+    return render(request, 'goods/category-form.html', context)
+
+
 def search_goods(request):
     products, search_query = search_product(request)
     print('Products: ', products)
@@ -112,6 +120,7 @@ def about(request):
 def contacts(request):
     return render(request, 'contacts.html')
 
+
 def get_mail_posts(request):
     post_list = []
     if request.method == "POST":
@@ -119,6 +128,7 @@ def get_mail_posts(request):
         city = raw_data.get('city')
         posts_list = nova_poshta_posts(request, city=city)
     return JsonResponse(posts_list, safe=False)
+
 
 def goods_processing(request):
     profile = {}
