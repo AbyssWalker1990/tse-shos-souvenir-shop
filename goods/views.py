@@ -102,7 +102,7 @@ def create_category(request):
     form = CategoryForm()
 
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('categories')
