@@ -100,6 +100,13 @@ def product_category(request, pk):
 
 def create_category(request):
     form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+
     context = {'form': form, 'category': None}
     return render(request, 'goods/category-form.html', context)
 
