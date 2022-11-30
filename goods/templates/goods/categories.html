@@ -44,13 +44,19 @@
           {% for category in categories %}
           <div id="1" class="item new col-md-4 category-card">
             <div class="card text-center" width="100%">
+              <div class="row">
+                <div class="col d-flex">
 
-              <a href="" class="btn btn-sm btn-warning category-edit d-flex justify-content-center">
-                <i class="fa-solid fa-gear fa-xl text-white my-auto"></i>
-              </a>
-              <a href="" class="btn btn-sm btn-danger category-delete d-flex justify-content-center">
-                <i class="fa-solid fa-trash-can fa-xl text-white my-auto"></i>
-              </a>
+                  <a href="#" class="btn btn-sm btn-warning category-edit d-flex justify-content-center">
+                    <i class="fa-solid fa-gear fa-xl text-white my-auto"></i>
+                  </a>
+             
+                  <a href="#" class="btn btn-sm btn-danger category-delete d-flex justify-content-center">
+                    <i class="fa-solid fa-trash-can fa-xl text-white my-auto"></i>
+                  </a>
+
+                </div>
+              </div>
 
               <a class="text-decoration-none" href="{% url 'product_category' category.id%}">
                 <img class="img img-fluid" src="{{category.featured_img.url}}" alt="">

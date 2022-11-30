@@ -45,24 +45,16 @@
   border-color: #0d6efd;
 }
 
-// category cards
+//category cards
 .category-card {
-  position: relative;
-
   a.category-edit {
     width: 35px;
     height: 35px;
-    position: absolute;
-    left: 0;
-    top: 0;
   }
 
   a.category-delete {
     width: 35px;
     height: 35px;
-    position: absolute;
-    left: 35px;
-    top: 0;
   }
 }
 
