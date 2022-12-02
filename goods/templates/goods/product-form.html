@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div id="category-form mb-5">
+    <div class="row justify-content-center">
+      <div class="col-sm-3">
+      </div>
+
+      <div class="col-sm-6 text-center justify-content-center px-5">
+        {% if category == None %}
+          <h1>Створити Картку Товару</h1>
+        {% else %}
+          <h1>Редагувати Товар</h1>
+        {% endif %}
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form}}
+          <div class="d-grid">
+            <input class="btn btn-success my-3" type="submit" value="Підтвердити">
+          </div>
+        </form>
+      </div>
+
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

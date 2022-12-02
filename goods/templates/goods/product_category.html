@@ -3,7 +3,28 @@
 
 {% block content %}
 
-    <!-- Page Content -->
+    <!-- ADMIN PANEL -->
+    {% if request.user.is_superuser %}
+    <section id="admin-category">
+      <div class="wrapper bg-warning py-4">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col">
+              <p class="lead">Адмін панель</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <a href="{% url 'create-product' %}" class="btn btn-lg btn-success">
+                Додати Товар
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
     <!-- Items Starts Here -->
     <div class="featured-page">
       <div class="container">

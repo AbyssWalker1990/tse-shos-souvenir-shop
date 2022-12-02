@@ -9,7 +9,7 @@ from .utils import paginate_categories, search_product, paginate_products, nova_
     create_order_product
 from .signals import delete_bucket_item
 from userprofile.views import _get_session_id
-from .forms import CategoryForm
+from .forms import CategoryForm, ProductForm
 import copy
 
 
@@ -79,15 +79,11 @@ def product_category(request, pk):
             products = products.order_by('-price')
         if request.POST.get('low') == 'low':
             products = products.order_by('price')
-            print('low')
         if request.POST.get('new') == 'new':
             products = products.order_by('-created')
-            print('new')
     else:
         custom_range, products = paginate_products(request, products, 12)
 
-    if request.method == "GET":
-        print(request.GET.get('page'))
 
     context = {
         'products': products,
@@ -130,6 +126,18 @@ def delete_category(request, pk):
         category.delete()
 
     return redirect('categories')
+
+def create_product(request):
+    form = ProductForm()
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+
+    context = {'form': form, 'product': None}
+    return render(request, 'goods/product-form.html', context)
 
 
 
