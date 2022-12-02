@@ -37,6 +37,8 @@ class ProductForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
-
+        self.fields['name'].required = False
+        self.fields['description'].required = False
+        self.fields['price'].required = False
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})

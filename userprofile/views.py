@@ -98,7 +98,11 @@ def bucket(request, pk):
     user_profile = request.user.profile
     order_cards = OrderCard.objects.all().filter(client=user_profile)
     order_products = OrderProduct.objects.all().filter(client=user_profile, status="PROCESSING")
-    total_sum = sum([i.total_price for i in order_products])
+    try:
+        total_sum = sum([i.total_price for i in order_products])
+    except:
+        print("Exception in bucket")
+        total_sum = 0
     context = {'user_id': user_id,
                'order_products': order_products,
                'total_sum': total_sum,
@@ -125,7 +129,11 @@ def non_user_bucket(request):
     products = OrderProduct.objects.all().filter(session_id=card)
     total_sum = 0
     for i in products:
-        total_sum += i.total_price
+        try:
+            total_sum += i.total_price
+        except:
+            print("Exception in non-bucket")
+            total_sum = 0
 
     context = {'card': card,
                'products': products,

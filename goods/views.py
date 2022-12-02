@@ -82,14 +82,11 @@ def product_category(request, pk):
             products = products.order_by('-created')
     else:
         custom_range, products = paginate_products(request, products, 12)
-
-
     context = {
         'products': products,
         'custom_range': custom_range,
         'category_id': category_id
     }
-
     return render(request, 'goods/product_category.html', context)
 
 
@@ -128,34 +125,37 @@ def delete_category(request, pk):
     return redirect('categories')
 
 
-def create_product(request):
-    form = ProductForm()
+def create_product(request, category_id):
+    category = Category.objects.get(id=category_id)
+    form = ProductForm({'prod_category': category})
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('categories')
+            return redirect('product_category', category_id)
     context = {'form': form, 'is_update': False}
     return render(request, 'goods/product-form.html', context)
 
 
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
+    category_id = product.prod_category.id
     form = ProductForm(instance=product)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('categories')
+            return redirect('product_category', category_id)
     context = {'form': form, 'is_update': True}
     return render(request, 'goods/product-form.html', context)
 
 
 def delete_product(request, pk):
     product = Product.objects.get(id=pk)
+    category_id = product.prod_category.id
     if request.method == 'POST':
         product.delete()
-    return redirect('categories')
+    return redirect('product_category', category_id)
 
 
 def search_goods(request):
