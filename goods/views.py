@@ -111,6 +111,28 @@ def create_category(request):
     return render(request, 'goods/category-form.html', context)
 
 
+def update_category(request, pk):
+    category = Category.objects.get(id=pk)
+    form = CategoryForm(instance=category)
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+
+    context = {'form': form, 'category': None}
+    return render(request, 'goods/category-form.html', context)
+
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    if request.method == 'POST':
+        category.delete()
+
+    return redirect('categories')
+
+
+
 def search_goods(request):
     products, search_query = search_product(request)
     print('Products: ', products)

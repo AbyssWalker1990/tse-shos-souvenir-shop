@@ -44,19 +44,45 @@
           {% for category in categories %}
           <div id="1" class="item new col-md-4 category-card">
             <div class="card text-center" width="100%">
+              {% if request.user.is_superuser %}
               <div class="row">
+                
                 <div class="col d-flex">
 
-                  <a href="#" class="btn btn-sm btn-warning category-edit d-flex justify-content-center">
+                  <a href="{% url 'update-category' category.id %}" class="btn btn-sm btn-warning category-edit d-flex justify-content-center">
                     <i class="fa-solid fa-gear fa-xl text-white my-auto"></i>
                   </a>
              
-                  <a href="#" class="btn btn-sm btn-danger category-delete d-flex justify-content-center">
+                  <a href="#" class="btn btn-sm btn-danger category-delete d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
                     <i class="fa-solid fa-trash-can fa-xl text-white my-auto"></i>
                   </a>
 
+                  <!-- MODAL DELETE CONFIRMATION -->
+                  <div class="modal fade" id="deleteConfirmation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">Видалення Категорії</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p class="lead">Ви точно бажаєте видалити категорію {{category}}?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <form action="{% url 'delete-category' category.id %}" method="POST">
+                            {% csrf_token %}
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Відміна</button>
+                          <button type="submit" class="btn btn-danger">ВИДАЛИТИ!</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
+              {% endif %}
 
               <a class="text-decoration-none" href="{% url 'product_category' category.id%}">
                 <img class="img img-fluid" src="{{category.featured_img.url}}" alt="">

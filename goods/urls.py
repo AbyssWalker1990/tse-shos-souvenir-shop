@@ -16,4 +16,6 @@ urlpatterns = [
     path('user_order/<str:pk>/', views.user_order, name="user_order"),
     path('get-mail-posts/', views.get_mail_posts, name="get-mail-posts"),
     path('create-category/', views.create_category, name="create-category"),
+    path('update-category/<str:pk>', views.update_category, name="update-category"),
+    path('delete-category/<str:pk>', views.delete_category, name="delete-category"),
 ]
