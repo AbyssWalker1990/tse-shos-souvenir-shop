@@ -26,7 +26,6 @@ def goods(request):
 
 def goods_article(request, pk):
     profile_id = None
-
     product_article = Product.objects.get(id=pk)
     featured_products = Product.objects.all().filter(
         prod_category=product_article.prod_category)
@@ -103,7 +102,7 @@ def create_category(request):
             form.save()
             return redirect('categories')
 
-    context = {'form': form, 'category': None}
+    context = {'form': form, 'is_update': False}
     return render(request, 'goods/category-form.html', context)
 
 
@@ -117,8 +116,9 @@ def update_category(request, pk):
             form.save()
             return redirect('categories')
 
-    context = {'form': form, 'category': None}
+    context = {'form': form, 'is_update': True}
     return render(request, 'goods/category-form.html', context)
+
 
 def delete_category(request, pk):
     category = Category.objects.get(id=pk)
@@ -127,18 +127,35 @@ def delete_category(request, pk):
 
     return redirect('categories')
 
+
 def create_product(request):
     form = ProductForm()
-
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('categories')
-
-    context = {'form': form, 'product': None}
+    context = {'form': form, 'is_update': False}
     return render(request, 'goods/product-form.html', context)
 
+
+def update_product(request, pk):
+    product = Product.objects.get(id=pk)
+    form = ProductForm(instance=product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    context = {'form': form, 'is_update': True}
+    return render(request, 'goods/product-form.html', context)
+
+
+def delete_product(request, pk):
+    product = Product.objects.get(id=pk)
+    if request.method == 'POST':
+        product.delete()
+    return redirect('categories')
 
 
 def search_goods(request):

@@ -64,7 +64,7 @@ class OrderProduct(models.Model):
     # Bounding for non-authorized user
     session_id = models.ForeignKey('OrderCard', on_delete=models.CASCADE, null=True, blank=True)
 
-    product_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING, null=True, blank=True)
+    product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     count = models.SmallIntegerField(default=1, null=True, blank=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="PROCESSING")
     created = models.DateTimeField(auto_now_add=True)

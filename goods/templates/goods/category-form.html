@@ -6,10 +6,10 @@
       </div>
 
       <div class="col-sm-6 text-center justify-content-center px-5">
-        {% if category == None %}
-          <h1>Створити категорію</h1>
-        {% else %}
+        {% if is_update %}
           <h1>Редагувати категорію</h1>
+        {% else %}
+          <h1>Створити категорію</h1>
         {% endif %}
         <form action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
