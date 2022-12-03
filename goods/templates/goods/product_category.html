@@ -102,8 +102,8 @@
                 <a href="{% url 'goods_article' product.id %}">
                   <img class="img-fluid" src="{{product.featured_img.url}}" alt="" class="card-img-top">
                 </a>
-                <div class="card-body">
-                  <h5 class="card-title"><a class="text-decoration-none fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
+                <div class="card-body" >
+                  <h5 class="card-title" style="height: 2.5rem;"><a class="text-decoration-none fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
                   <p>{{product.price}} грн.</p>
                 </div>
               </div>

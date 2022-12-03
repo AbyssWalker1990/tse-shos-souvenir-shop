@@ -84,7 +84,11 @@
           
           <div class="down-content mt-3">
             <div class="categories">
-              <h6>Теги: <span><a href="#">Pants</a>,<a href="#">Women</a>,<a href="#">Lifestyle</a></span></h6>
+              <h6>Теги: 
+                {% for tag in product_tags %}
+                <span><a href="#">{{tag}}</a>
+                {% endfor %}
+              </h6>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from .models import Product, Category, OrderProduct, OrderCard
+from .models import Product, Category, OrderProduct, OrderCard, Tag
 from userprofile.models import User, Profile
 from userprofile.forms import OrderProductForm
 from .utils import paginate_categories, search_product, paginate_products, nova_poshta_cities, nova_poshta_posts, \
@@ -27,6 +27,7 @@ def goods(request):
 def goods_article(request, pk):
     profile_id = None
     product_article = Product.objects.get(id=pk)
+    product_tags = product_article.tags.all()
     featured_products = Product.objects.all().filter(
         prod_category=product_article.prod_category)
     form = OrderProductForm()
@@ -34,6 +35,7 @@ def goods_article(request, pk):
         'product_article': product_article,
         'form': form,
         'featured_products': featured_products,
+        'product_tags': product_tags,
     }
     # Create session for anonymous user
     if not request.session or not request.session.session_key:
@@ -129,9 +131,13 @@ def create_product(request, category_id):
     category = Category.objects.get(id=category_id)
     form = ProductForm({'prod_category': category})
     if request.method == 'POST':
+        new_tags = request.POST.get('taginput').replace(",", " ").split()
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save()
+            for tag in new_tags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                product.tags.add(tag)
             return redirect('product_category', category_id)
     context = {'form': form, 'is_update': False}
     return render(request, 'goods/product-form.html', context)
@@ -139,14 +145,21 @@ def create_product(request, category_id):
 
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
+    product_tags = product.tags.all()
+    print(product_tags)
     category_id = product.prod_category.id
     form = ProductForm(instance=product)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
+        new_tags = request.POST.get('taginput').replace(",", " ").split()
         if form.is_valid():
-            form.save()
+            updated_product = form.save()
+            for tag in new_tags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                updated_product.tags.add(tag)
             return redirect('product_category', category_id)
-    context = {'form': form, 'is_update': True}
+    context = {'form': form, 'product': product,
+               'product_tags': product_tags, 'is_update': True}
     return render(request, 'goods/product-form.html', context)
 
 

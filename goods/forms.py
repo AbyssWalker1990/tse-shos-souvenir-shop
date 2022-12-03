@@ -42,3 +42,4 @@ class ProductForm(ModelForm):
         self.fields['price'].required = False
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
