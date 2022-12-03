@@ -46,18 +46,25 @@
 }
 
 //category cards
-.category-card,
-.product-card {
-  a.category-edit {
-    width: 35px;
-    height: 35px;
-  }
 
-  a.category-delete {
-    width: 35px;
-    height: 35px;
-  }
+.edit-button,
+.delete_button {
+  width: 35px;
+  height: 35px;
 }
+
+// .category-card,
+// .product-card {
+//   a.category-edit {
+//     width: 35px;
+//     height: 35px;
+//   }
+
+//   a.category-delete {
+//     width: 35px;
+//     height: 35px;
+//   }
+// }
 
 @media (max-width: 768px) {
   #pre-header {
