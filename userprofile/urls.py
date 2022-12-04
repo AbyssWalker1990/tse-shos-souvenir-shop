@@ -14,6 +14,7 @@ urlpatterns = [
     path('non-user-bucket/', views.non_user_bucket, name="non-user-bucket"),
     path('increase-item-non-user/<str:pk>', views.increase_item_non_user, name="increase-item-non-user"),
     path('decrease-item-non-user/<str:pk>', views.decrease_item_non_user, name="decrease-item-non-user"),
-    path('delete-item-non-user/<str:pk>', views.delete_item_non_user, name="delete-item-non-user")
+    path('delete-item-non-user/<str:pk>', views.delete_item_non_user, name="delete-item-non-user"),
+    path('check-bucket/', views.check_bucket, name="check-bucket"),
     # path('goods_article/<str:pk>/', views.goods_article, name="goods_article")
 ]

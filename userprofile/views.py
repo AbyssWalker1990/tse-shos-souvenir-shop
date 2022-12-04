@@ -6,7 +6,8 @@ from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
 from goods.models import OrderProduct, OrderCard
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+import json
 
 
 # Create your views here.
@@ -120,6 +121,7 @@ def _get_session_id(request):
 
 
 def non_user_bucket(request):
+    items = 0
     try:
         card = OrderCard.objects.get(session_id=_get_session_id(request))
     except (OrderCard.DoesNotExist, OrderCard.MultipleObjectsReturned):
@@ -127,6 +129,7 @@ def non_user_bucket(request):
             session_id=_get_session_id(request)
         )
     products = OrderProduct.objects.all().filter(session_id=card)
+
     total_sum = 0
     for i in products:
         try:
@@ -140,6 +143,21 @@ def non_user_bucket(request):
                'total_sum': total_sum}
 
     return render(request, 'userprofile/non-user-bucket.html', context)
+
+def check_bucket(request):
+    is_item = {}
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        products = OrderProduct.objects.all().filter(client=profile)
+        print(profile)
+        print(products)
+
+    if request.method == 'GET' and products:
+        print("START GET")
+        items = len(products)
+        is_item = {'is_item': items }
+    
+    return JsonResponse(is_item, safe=False )
 
 
 def delete_item(request, pk):
