@@ -19,10 +19,12 @@ $(document).ready(function () {
         console.log(isGoods['is_item'])
         bucketIcon = document.querySelector(".bucket-icon")
         console.log(bucketIcon)
+        if (isGoods['is_item']) {
         const badge = document.createElement("span")
         badge.innerHTML = isGoods['is_item']
         badge.classList.add("position-absolute", "top-0", "start-100", "translate-middle", "badge", "rounded-pill", "bg-danger")
         bucketIcon.append(badge)
+        }
     });
     });
 

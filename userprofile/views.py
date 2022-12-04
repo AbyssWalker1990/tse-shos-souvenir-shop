@@ -151,6 +151,15 @@ def check_bucket(request):
         products = OrderProduct.objects.all().filter(client=profile)
         print(profile)
         print(products)
+    else:
+        try:
+            card = OrderCard.objects.get(session_id=_get_session_id(request))
+        except (OrderCard.DoesNotExist, OrderCard.MultipleObjectsReturned):
+            card = OrderCard.objects.create(
+            session_id=_get_session_id(request)
+            )
+
+        products = OrderProduct.objects.all().filter(session_id=card)
 
     if request.method == 'GET' and products:
         print("START GET")
