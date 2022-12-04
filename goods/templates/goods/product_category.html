@@ -104,7 +104,13 @@
                 </a>
                 <div class="card-body" >
                   <h5 class="card-title" style="height: 2.5rem;"><a class="text-decoration-none fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
-                  <p>{{product.price}} грн.</p>
+                  {% if product.discount %}
+                    <p class="my-0"><s>{{product.price}} грн.</s></p>
+                    <p class="text-danger my-0">{{product.discount}} грн.</p>
+                  {% else %}
+                    <p class="my-0">{{product.price}} грн.</p>
+                    <p class="my-0 text-white">_____</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
