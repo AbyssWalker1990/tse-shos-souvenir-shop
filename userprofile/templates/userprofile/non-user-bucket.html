@@ -45,8 +45,16 @@
     </div>
 
     <div class="col-md-2 bg-light d-flex">
-      <p class="lead d-flex align-items-center">{{ product.count }} x {{product.product_id.price}}</p>
-    </div> 
+      {% if product.product_id.discount %}
+        <p class="lead d-flex align-items-center">
+          <strong>{{ product.count}}</strong>&nbsp;x&nbsp;<s>{{product.product_id.price}}</s>&nbsp;<span class="text-danger"><strong>{{product.product_id.discount}}</strong></span>
+        </p>
+      {% else %}
+        <p class="lead d-flex align-items-center">
+        <strong>{{ product.count}}</strong>&nbsp; x &nbsp;<strong>{{product.product_id.price}}</strong>
+        </p>     
+    {% endif %}
+
     {% endfor %}
   </div>
 </section>

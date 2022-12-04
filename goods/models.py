@@ -76,7 +76,10 @@ class OrderProduct(models.Model):
 
     @property
     def total_price(self):
-        total_price_order = self.count * self.product_id.price
+        if self.product_id.discount:
+            total_price_order = self.count * self.product_id.discount
+        else:
+            total_price_order = self.count * self.product_id.price
         return total_price_order
 
 
