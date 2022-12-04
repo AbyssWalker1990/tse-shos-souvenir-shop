@@ -147,10 +147,8 @@ def non_user_bucket(request):
 def check_bucket(request):
     is_item = {}
     if request.user.is_authenticated:
-        profile = request.user.profile
-        products = OrderProduct.objects.all().filter(client=profile)
-        print(profile)
-        print(products)
+        current_profile = request.user.profile
+        products = OrderProduct.objects.all().filter(client=current_profile)
     else:
         try:
             card = OrderCard.objects.get(session_id=_get_session_id(request))
@@ -158,11 +156,9 @@ def check_bucket(request):
             card = OrderCard.objects.create(
             session_id=_get_session_id(request)
             )
-
         products = OrderProduct.objects.all().filter(session_id=card)
 
     if request.method == 'GET' and products:
-        print("START GET")
         items = len(products)
         is_item = {'is_item': items }
     
