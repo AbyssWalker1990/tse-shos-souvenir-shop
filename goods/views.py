@@ -247,6 +247,7 @@ def goods_processing(request):
                     surname=request.POST.get('surname'),
                     father_name=request.POST.get('father_name'),
                     phone_number=request.POST.get('phone'),
+                    payment_way=request.POST.get('payment'),
                     email=request.POST.get('email'),
                     total=total_sum
                 )
@@ -262,6 +263,7 @@ def goods_processing(request):
                 order_card.father_name = request.POST.get('father_name')
                 order_card.phone_number = request.POST.get('phone')
                 order_card.email = request.POST.get('email')
+                order_card.payment_way = request.POST.get('payment')
                 order_card.total = total_sum
                 order_card.save()
                 for order in order_products:

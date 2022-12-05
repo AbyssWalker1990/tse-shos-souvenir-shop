@@ -77,10 +77,16 @@
       {% else %}
         <input class="form-control" type="text" name="father_name" value="" style="width: 100%;">
       {% endif %}
+      <label class="form-label">Тип оплати</label>
+
+      <select class="form-select" type="text" name="payment" style="width: 100%;">
+        <option value="ON_MAIL">Накладений платіж</option>
+        <option value="CARD">Оплата на картку</option>
+      </select>
 
       <label class="form-label">Номер телефону</label>
       <input class="form-control" type="text" name="phone" style="width: 100%;">
-      <label>Електронна скринька</label>
+      <label class="form-label">Електронна скринька</label>
       <input class="form-control" type="text" name="email" value="{{profile.email}}" style="width: 100%;">
 
       {% for message in messages %}

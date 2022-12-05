@@ -91,6 +91,11 @@ class OrderCard(models.Model):
         ("TAKEN", "Отримано"),
     )
 
+    PAYMENT_CHOICES = (
+        ("ON_MAIL", "Накладений платіж"),
+        ("CARD", "Оплата на картку"),
+    )
+
     client = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     session_id = models.CharField(max_length=100, null=True, blank=True)
     goods = models.ManyToManyField(OrderProduct, blank=True)
@@ -101,8 +106,9 @@ class OrderCard(models.Model):
     father_name = models.CharField(max_length=200, null=True, blank=True)
     email = models.CharField(max_length=200, null=True, blank=True)
     phone_number = models.CharField(max_length=30, null=True, blank=True)
+    payment_way = models.CharField(max_length=25, choices=PAYMENT_CHOICES, default="Оберіть вид оплати")
     total = models.FloatField(max_length=30,null=True, blank=True)
-    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default="PROCESSING")
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default="В обробці")
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -29,6 +29,7 @@
 
             {% endfor %}
             <li class="list-group-item">Всього до сплати: {{card.total}}</li>
+            <li class="list-group-item">ВИД оплати: {{card.payment_way}}</li>
             <li class="list-group-item">Статус замовлення: {{card.get_status_display}}</li>
 
             <form  action="{% url 'orders_management' %}" method="POST">
