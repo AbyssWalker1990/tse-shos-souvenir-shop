@@ -58,7 +58,7 @@
           <div class="row">
             {% for product in products %}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-              <div class="card my-3 mx-auto text-center product-card"  style="width: 100%;">
+              <div class="card my-3 mx-auto text-center product-card bg-light"  style="width: 100%;">
                 <!-- ADMIN SECTION -->
                 {% if request.user.is_superuser %}
                 <div class="row">
@@ -103,7 +103,7 @@
                   <img class="img-fluid" src="{{product.featured_img.url}}" alt="" class="card-img-top">
                 </a>
                 <div class="card-body" >
-                  <h5 class="card-title" style="height: 2.5rem;"><a class="text-decoration-none fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
+                  <h5 class="card-title" style="height: 2.5rem;"><a class="text-decoration-none  text-warning fs-6" href="{% url 'goods_article' product.id %}">{{product.name}}</a></h5>
                   {% if product.discount %}
                     <p class="my-0"><s>{{product.price}} грн.</s></p>
                     <p class="text-danger my-0">{{product.discount}} грн.</p>

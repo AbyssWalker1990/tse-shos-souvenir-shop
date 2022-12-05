@@ -1,3 +1,9 @@
+$primary: #482673;
+$light: #f6ebf4;
+$danger: #ed0b70;
+$info: #4cbfa6;
+$warning: #301008;
+
 @import '../node_modules/bootstrap/scss/functions';
 @import '../node_modules/bootstrap/scss/variables';
 
@@ -11,17 +17,16 @@
   li {
     a {
       font-size: 1.2rem;
-      color: #000;
+      color: #301008;
       font-weight: bold;
       margin-left: 10px;
 
     }
 
     a:hover {
-      color: $primary;
-      transition: 0.9s;
+      color: $light  !important;
+      transition: 0.9s !important;
     }
-
   }
 }
 
@@ -96,6 +101,15 @@
     display: flex !important;
     margin: 0 auto !important;
   }
+
+  #navigation {
+    li {
+      a:hover {
+        color: $warning  !important;
+        transition: 0.9s !important;
+      }
+    }
+  }
 }
 
 
@@ -115,11 +129,6 @@
       background-color: $primary;
       transition: 1.2s;
     }
-
-    a:hover {
-      color: #000 !important;
-    }
-
   }
 }
 

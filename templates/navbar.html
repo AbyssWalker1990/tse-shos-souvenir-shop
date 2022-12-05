@@ -51,35 +51,35 @@
         <div class="collapse navbar-collapse mx-auto"  id="navbarResponsive">
           <ul class="navbar-nav ms-auto text-center">
             <li class="nav-item ">
-              <a class="nav-link" href="{% url 'goods' %}">Головна
-                <span class="sr-only">(current)</span>
+              <a class="nav-link text-primary" href="{% url 'goods' %}">Головна
+                <!-- <span class="sr-only">(current)</span> -->
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'categories' %}">Категорії</a>
+              <a class="nav-link text-primary" href="{% url 'categories' %}">Категорії</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">Інформація</a>
+              <a class="nav-link text-primary" href="{% url 'about' %}">Інформація</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'contacts' %}">Контакти</a>
+              <a class="nav-link text-primary" href="{% url 'contacts' %}">Контакти</a>
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
     
-              <a class="nav-link" href="{% url 'profile' user.profile.id %}">Профіль</a>
+              <a class="nav-link text-primary" href="{% url 'profile' user.profile.id %}">Профіль</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Вийти</a>
+              <a class="nav-link text-primary" href="{% url 'logout' %}">Вийти</a>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Увійти</a>
+              <a class="nav-link text-primary" href="{% url 'login' %}">Увійти</a>
             </li>
             {% endif %}
             {% if request.user.is_superuser %}
             <li>
-              <a class="nav-link" href="{% url 'orders_management' %}">Замовлення</a>
+              <a class="nav-link text-primary" href="{% url 'orders_management' %}">Замовлення</a>
             </li>
 
             {% endif %}

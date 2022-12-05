@@ -20,11 +20,11 @@
 
     {% if request.user.is_superuser %}
     <section id="admin-category">
-      <div class="wrapper bg-warning py-4">
+      <div class="wrapper bg-primary py-4">
         <div class="container">
           <div class="row text-center">
             <div class="col">
-              <p class="lead">Адмін панель</p>
+              <p class="text-light lead">Адмін панель</p>
             </div>
           </div>
           <div class="row">
@@ -43,7 +43,7 @@
       <div class="row posts">
           {% for category in categories %}
           <div id="1" class="item new col-md-4 category-card">
-            <div class="card text-center" width="100%">
+            <div class="card text-center bg-light" width="100%">
               {% if request.user.is_superuser %}
               <div class="row">
                 
@@ -86,7 +86,7 @@
 
               <a class="text-decoration-none" href="{% url 'product_category' category.id %}">
                 <img class="img img-fluid" src="{{category.featured_img.url}}" alt="">
-                <h4 >{{category.name}}</h4>
+                <h4 class="py-4 text-warning">{{category.name}}</h4>
               </a>
             </div>              
           </div>

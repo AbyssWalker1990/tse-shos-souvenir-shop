@@ -15,13 +15,17 @@
   <div class="container" height="300px">
     <div class="owl-carousel owl-theme">
       {% for product in products %}
-      <div class="card py-2 my-2 bg-light">
+      <div class="card pb-2 my-2 bg-light">
         <a href="{% url 'goods_article' product.id %}">
           <img src="{{product.featured_img.url}}" class="card-img-top" alt="...">
         </a>
-        <div class="card-body">
-          <h5 class="card-title">{{product.name}}</h5>
-          <h6 class="card-subtitle text-muted">{{product.price}}</h6>
+        <div class="card-body text-center">
+          <h5 class="card-title text-warning">{{product.name}}</h5>
+          {% if product.discount %}
+          <h6 class="card-subtitle text-muted"><span class="text-danger"><s>{{product.price}}</s></span> {{product.discount}}грн.</h6>
+          {% else %}
+          <h6 class="card-subtitle text-muted">{{product.price}} грн.</h6>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
@@ -33,8 +37,8 @@
 <section id="short-info">
   <div class="background-wrapper bg-primary mt-5 py-3">
     <div class="container text-center py-3 px-5">
-      <h1 class="text-white">Subscribe on PIXIE now!</h1>
-      <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae debitis distinctio architecto quia consectetur expedita accusantium doloremque sapiente esse sunt. At perferendis maiores beatae accusamus.</p>
+      <h1 class="text-info">Subscribe on PIXIE now!</h1>
+      <p class="text-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae debitis distinctio architecto quia consectetur expedita accusantium doloremque sapiente esse sunt. At perferendis maiores beatae accusamus.</p>
     </div>
   </div>
 </section>
