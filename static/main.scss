@@ -8,6 +8,10 @@ $warning: #301008;
 @import '../node_modules/bootstrap/scss/variables';
 
 
+.card:hover {
+  transform: scale(1.04);
+  transition: 0.3s;
+}
 
 #navbarResponsive {
   border-top: 1px rgba(0, 0, 0, 0.1) solid;
