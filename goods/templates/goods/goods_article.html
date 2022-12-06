@@ -4,7 +4,7 @@
 {% block content %}
 <!-- Page Content -->
 <!-- Single Starts Here -->
-<div class="single-product">
+<div class="single-product bg-light">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -16,7 +16,7 @@
       <!-- SLIDER -->
       <div class="col-md-6 d-block" max-height="300px">
 
-        <div id="carousel-article" class="carousel slide" data-bs-ride="carousel">
+        <div id="carousel-article" class="carousel slide p-2" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <img src="{{product_article.img1.url}}" class="img img-fluid" alt="...">
@@ -29,42 +29,11 @@
             </div>
           </div>
         </div>
-
-
-        <!-- <div class="product-slider">
-          <div class="slider">
-            <div class="itm-slide">
-                <img src="{{product_article.img1.url}}" alt="Первый слайд">
-                <div class="slideText"></div>
-            </div>
-
-            <div class="itm-slide">
-                <img src="{{product_article.img2.url}}" alt="Второй слайд">
-                <div class="slideText"></div>
-            </div>
-
-            <div class="itm-slide">
-                <img src="{{product_article.img3.url}}" alt="Третий слайд">
-                <div class="slideText"></div>
-            </div>
-
-            <a class="prev" onclick="minusSlide()">&#10094;</a>
-            <a class="next" onclick="plusSlide()">&#10095;</a>
-          </div>
-
-          <div class="slider-dots">
-              <span class="slider-dots_item" onclick="currentSlide(1)"></span>
-              <span class="slider-dots_item" onclick="currentSlide(2)"></span>
-              <span class="slider-dots_item" onclick="currentSlide(3)"></span>
-          </div>
-        </div> -->
-
-
       </div>
 
       <!-- CONTENT DESCRIPTION -->
       <div class="col-md-6">
-        <div class="right-content">
+        <div class="right-content p-3 bg-light">
           <h4>{{product_article.name}}</h4>
           {% if product_article.discount %}
           <h6><s>{{product_article.price}}</s> &nbsp; <span class="text-danger">{{product_article.discount}} грн.</span></h6>
@@ -75,7 +44,7 @@
 
           <form action="{% url 'goods_article' product_article.id %}" method="POST">
             {% csrf_token %}
-            <div class="input-group">
+            <div class="input-group outline-primary">
               <div class="input-group-text btn btn-outline-primary">Кількість:</div>
               {% for field in form %}
               {{field}}
@@ -107,24 +76,35 @@
 
 <!-- Similar Starts Here -->
 <div class="featured-items">
+
+  <div class="section-heading text-center bg-primary">
+    <div class="line-dec"></div>
+    <h1 class="text-info py-3 my-2">Вас також може зацікавити:</h1>
+  </div>
+
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="section-heading">
-          <div class="line-dec"></div>
-          <h1>Вас також може зацікавити:</h1>
-        </div>
+
       </div>
       <div class="col-md-12">
         <div class="owl-carousel owl-theme">
           {% for product in featured_products %}
-          <a href="{% url 'goods_article' product.id %}">
-            <div class="featured-item">
-              <img src="{{product.featured_img.url}}" alt="Item 9">
-              <h4>{{product.name}}</h4>
-              <h6>{{product.price}} грн.</h6>
-            </div>
-          </a>
+          
+          <div class="featured-item text-center bg-light pb-2">
+            <a href="{% url 'goods_article' product.id %}">
+            <img src="{{product.featured_img.url}}" alt="Item 9">
+            </a>
+            <a  class="text-decoration-none text-warning pt-1" href="{% url 'goods_article' product.id %}">
+            <h5>{{product.name}}</h4>
+            </a>
+            {% if product.discount %}        
+            <h6><s>{{product.price}}</s> &nbsp; <span class="text-danger">{{product.discount}}грн.</span></h6>
+            {% else %}
+            <h6>{{product.price}} грн.</h6>
+            {% endif %}
+          </div>
+         
           {% endfor %}
 
 

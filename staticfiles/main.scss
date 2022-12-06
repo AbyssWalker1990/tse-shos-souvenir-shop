@@ -7,7 +7,17 @@ $warning: #301008;
 @import '../node_modules/bootstrap/scss/functions';
 @import '../node_modules/bootstrap/scss/variables';
 
+h1 {
+  font-family: 'Play', sans-serif;
+}
 
+#pre-header{
+  h4 {
+    font-family: 'Marck Script', cursive;
+  }
+}
+
+.featured-item:hover,
 .card:hover {
   transform: scale(1.04);
   transition: 0.3s;
@@ -21,6 +31,7 @@ $warning: #301008;
   li {
     a {
       font-size: 1.2rem;
+      font-family: 'Play', sans-serif;
       color: #301008;
       font-weight: bold;
       margin-left: 10px;
@@ -35,11 +46,6 @@ $warning: #301008;
 }
 
 #mybanner {
-  // position: relative;
-  // height: 500px;
-  // background: url(../images/banner-bg2.jpg);
-  // background-position: center center;
-  // background-size: cover;
   .wrapper-banner {
     width: 100%; /* Full width (cover the whole page) */
     height: 450px; /* Full height (cover the whole page) */
