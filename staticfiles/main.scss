@@ -7,21 +7,23 @@ $warning: #301008;
 @import '../node_modules/bootstrap/scss/functions';
 @import '../node_modules/bootstrap/scss/variables';
 
+
 h1 {
   font-family: 'Play', sans-serif;
 }
 
-#pre-header{
+#pre-header {
   h4 {
     font-family: 'Marck Script', cursive;
   }
 }
 
-.featured-item:hover,
-.card:hover {
-  transform: scale(1.04);
-  transition: 0.3s;
-}
+// NEED TO MOVE ADMIN BUTTON OUTSIDE CARDS AND ADD STYLING
+// .featured-item:hover,
+// .card:hover {
+//   transform: scale(1.04);
+//   transition: 0.3s;
+// }
 
 #navbarResponsive {
   border-top: 1px rgba(0, 0, 0, 0.1) solid;
@@ -47,17 +49,21 @@ h1 {
 
 #mybanner {
   .wrapper-banner {
-    width: 100%; /* Full width (cover the whole page) */
-    height: 450px; /* Full height (cover the whole page) */
+    width: 100%;
+    /* Full width (cover the whole page) */
+    height: 450px;
+    /* Full height (cover the whole page) */
     top: 0;
     left: 0;
     transition: 0.9s;
-    background-color: rgba(30, 5, 52, 0.5); /* Black background with opacity */
+    background-color: rgba(30, 5, 52, 0.5);
+    /* Black background with opacity */
   }
 
   .wrapper-banner:hover {
     transition: 0.9s;
-    background-color: rgba(237, 11, 112, 0.3); /* Black background with opacity */
+    background-color: rgba(237, 11, 112, 0.3);
+    /* Black background with opacity */
   }
 
 
@@ -67,7 +73,7 @@ h1 {
     width: 100%;
     background-repeat: no-repeat;
     background-position: 90% 10%;
-    background-size :cover; 
+    background-size: cover;
     transition: 0.9s;
   }
 
@@ -84,8 +90,8 @@ h1 {
       opacity: 1;
     }
   }
-  
-  
+
+
 }
 
 .footer-menu {
