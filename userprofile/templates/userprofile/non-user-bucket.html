@@ -26,6 +26,7 @@
           </form>
         </div>
       </div>
+      
 
       <div class="col-lg-6 p-2">
         <form class="d-flex" action="{% url 'delete-item-non-user' product.id %}" method="POST">
@@ -33,10 +34,7 @@
         <button type="submit" class="btn btn-sm btn-danger mx-auto" name="{{product.id}}">Видалити</button>
         </form>
       </div>
-
-      </div>
-
-
+    </div>
     </div>
 
     <div class="col-md-8 p-3 bg-light">
@@ -54,9 +52,11 @@
         <strong>{{ product.count}}</strong>&nbsp; x &nbsp;<strong>{{product.product_id.price}}</strong>
         </p>     
     {% endif %}
-
+  </div>
     {% endfor %}
   </div>
+  
+  
 </section>
 
 <!-- Total SUM -->
