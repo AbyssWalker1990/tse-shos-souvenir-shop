@@ -139,7 +139,7 @@ def create_order_product(request, user_profile, profile_id, product_article):
             session_id=OrderCard.objects.get(session_id=request.session.session_key),
             product_id=product_article,
             count=form.cleaned_data['count'],
-            status='DONE',
+            status='PROCESSING',
         )
         order_product.save()
         return False
