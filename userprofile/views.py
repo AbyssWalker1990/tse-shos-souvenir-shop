@@ -7,6 +7,7 @@ from .models import Profile
 from goods.models import OrderProduct, OrderCard
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 import json
 
 
@@ -128,7 +129,7 @@ def non_user_bucket(request):
         card = OrderCard.objects.create(
             session_id=_get_session_id(request)
         )
-    products = OrderProduct.objects.all().filter(session_id=card)
+    products = OrderProduct.objects.all().filter(session_id=card, status="PROCESSING")
 
     total_sum = 0
     for i in products:
@@ -148,7 +149,7 @@ def check_bucket(request):
     is_item = {}
     if request.user.is_authenticated:
         current_profile = request.user.profile
-        products = OrderProduct.objects.all().filter(client=current_profile)
+        products = OrderProduct.objects.all().filter(client=current_profile, status="PROCESSING")
     else:
         try:
             card = OrderCard.objects.get(session_id=_get_session_id(request))
@@ -156,7 +157,7 @@ def check_bucket(request):
             card = OrderCard.objects.create(
             session_id=_get_session_id(request)
             )
-        products = OrderProduct.objects.all().filter(session_id=card)
+        products = OrderProduct.objects.all().filter(session_id=card, status="PROCESSING")
 
     if request.method == 'GET' and products:
         items = len(products)
