@@ -253,6 +253,8 @@ def goods_processing(request):
                 )
                 order_card.save()
                 for order in order_products:
+                    order.status = "DONE"
+                    order.save()
                     order_card.goods.add(order)
                 return redirect('order_success')
             else:
@@ -268,7 +270,8 @@ def goods_processing(request):
                 order_card.save()
                 for order in order_products:
                     order_card.goods.add(order)
-                    print(order)
+                    order.status = "DONE"
+                    order.save()
                 order_card.save()
                 return redirect('order_success')
 
