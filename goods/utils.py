@@ -89,8 +89,9 @@ def nova_poshta_cities(request):
             "Limit": "50000"
         }
     }
-    result = requests.get('https://api.novaposhta.ua/v2.0/json/', json=context_city).json()
+    result = requests.post('https://api.novaposhta.ua/v2.0/json/', json=context_city).json()
     data = (result['data'])
+    print("DATA: ", data)
     city_list = []
     for x in data:
         city_list.append(x['Description'])
@@ -107,7 +108,7 @@ def nova_poshta_posts(request, city):
             "CityName": city
         }
     }
-    resp = requests.get('https://api.novaposhta.ua/v2.0/json/', json=context_posts).json()
+    resp = requests.post('https://api.novaposhta.ua/v2.0/json/', json=context_posts).json()
     posts = (resp['data'])
     posts_list = []
     for x in posts:
