@@ -19,11 +19,11 @@ h1 {
 }
 
 // NEED TO MOVE ADMIN BUTTON OUTSIDE CARDS AND ADD STYLING
-// .featured-item:hover,
-// .card:hover {
-//   transform: scale(1.04);
-//   transition: 0.3s;
-// }
+.featured-item:hover,
+.card:hover {
+  transform: scale(1.04);
+  transition: 0.3s;
+}
 
 #navbarResponsive {
   border-top: 1px rgba(0, 0, 0, 0.1) solid;
