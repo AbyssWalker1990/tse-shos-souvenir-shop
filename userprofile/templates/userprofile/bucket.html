@@ -64,21 +64,18 @@
 
       <div class="col-xs-4 col-sm-4 col-md-2 p-2 text-center count-price-bucket">
         {% if product.product_id.discount %}
+          <p class="lead">
+            <strong>{{ product.count}}</strong>x<s>{{product.product_id.price}}</s>&nbsp;<span class="text-danger"><strong>{{product.product_id.discount}}</strong></span>
+          </p>
+        {% else %}
+          <p class="lead">
+            <strong>{{ product.count}}</strong>x<strong>{{product.product_id.price}}</strong>
+          </p>     
+        {% endif %}    
         <p class="lead">
-          <strong>{{ product.count}}</strong>&nbsp;x&nbsp;<s>{{product.product_id.price}}</s>&nbsp;<span class="text-danger"><strong>{{product.product_id.discount}}</strong></span>
+          <strong>Сума: {{ product.total_price }}</strong>
         </p>
-      {% else %}
-      <p class="lead">
-        <strong>{{ product.count}}</strong>&nbsp; x &nbsp;<strong>{{product.product_id.price}}</strong>
-      </p>     
-      {% endif %}
-    
-      <p class="lead">
-        <strong>Сума: {{ product.total_price }}</strong>
-      </p>
-
-
-      </div>
+        </div>
 
       
     </div>
