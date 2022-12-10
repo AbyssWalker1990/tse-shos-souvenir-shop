@@ -131,6 +131,29 @@ h1 {
 //   }
 // }
 
+.button-bucket {
+  width: 49%;
+
+  button {
+    position: relative;
+    height: 30px;
+    width: 100%;
+
+    i {
+      position: absolute;
+      top: 50%;
+      left: 35%;
+    }
+  }
+}
+
+// style for total price product in bucket
+.count-price-bucket {
+  p {
+    margin-bottom: 0;
+  }
+}
+
 @media (max-width: 768px) {
   #pre-header {
     h4 {
@@ -186,6 +209,29 @@ h1 {
     li:hover {
       background-color: $primary;
       transition: 1.2s;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+
+  // bucket styles for mobile
+  .button-bucket-cont {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .button-bucket {
+    width: 49%;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .count-price-bucket {
+    p {
+      margin-bottom: 0;
     }
   }
 }
