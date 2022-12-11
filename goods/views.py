@@ -207,7 +207,7 @@ def goods_processing(request):
     total_sum = 0
     city_list = nova_poshta_cities(request)
 
-    if request.POST.get('posts') != None:
+    if request.POST.get('posts') is not None:
         if request.POST.get('phone') == "":
             messages.append("Введіть номер телефону")
         if request.POST.get('name') == "":
@@ -230,9 +230,7 @@ def goods_processing(request):
                 order_products = OrderProduct.objects.all().filter(client=profile, status="PROCESSING")
             else:
                 order_card = OrderCard.objects.get(session_id=request.session.session_key)
-                print("CARD: ", order_card)
                 order_products = OrderProduct.objects.all().filter(session_id=order_card)
-                print(order_products)
             total_sum = 0
             for i in order_products:
                 total_sum += i.total_price
@@ -258,15 +256,17 @@ def goods_processing(request):
                     order_card.goods.add(order)
                 return redirect('order_success')
             else:
-                order_card.city = request.POST.get('selected-city')
-                order_card.mail_post = request.POST.get('posts')
-                order_card.name = request.POST.get('name')
-                order_card.surname = request.POST.get('surname')
-                order_card.father_name = request.POST.get('father_name')
-                order_card.phone_number = request.POST.get('phone')
-                order_card.email = request.POST.get('email')
-                order_card.payment_way = request.POST.get('payment')
-                order_card.total = total_sum
+                order_card = OrderCard(
+                    city=request.POST.get('selected-city'),
+                    mail_post=request.POST.get('posts'),
+                    name=request.POST.get('name'),
+                    surname=request.POST.get('surname'),
+                    father_name=request.POST.get('father_name'),
+                    phone_number=request.POST.get('phone'),
+                    payment_way=request.POST.get('payment'),
+                    email=request.POST.get('email'),
+                    total=total_sum
+                )
                 order_card.save()
                 for order in order_products:
                     order_card.goods.add(order)
