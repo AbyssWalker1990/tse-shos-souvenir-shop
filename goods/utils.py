@@ -119,7 +119,14 @@ def nova_poshta_posts(request, city):
 
 def create_order_product(request, user_profile, profile_id, product_article):
     form = OrderProductForm(request.POST)
-    if form.is_valid() and request.user.is_authenticated:
+    # CHecking if user already have one of this in bucket
+    try:
+        duplicate_product = OrderProduct.objects.get(
+            client=user_profile, product_id=product_article, status="PROCESSING")
+    except OrderProduct.DoesNotExist:
+        duplicate_product = None
+
+    if form.is_valid() and request.user.is_authenticated and not duplicate_product:
         order_product = OrderProduct(
             client=user_profile,
             product_id=product_article,
@@ -127,6 +134,12 @@ def create_order_product(request, user_profile, profile_id, product_article):
             status='PROCESSING',
         )
         order_product.save()
+    elif form.is_valid() and request.user.is_authenticated and duplicate_product:
+        order_product = OrderProduct.objects.get(
+            client=user_profile, product_id=product_article, status="PROCESSING")
+        order_product.count += form.cleaned_data['count']
+        order_product.save()
+    # Need to process the same for not authorized user
     else:
         try:
             card = OrderCard.objects.get(session_id=request.session.session_key)
@@ -134,13 +147,23 @@ def create_order_product(request, user_profile, profile_id, product_article):
             card = OrderCard.objects.create(
                 session_id=_get_session_id(request)
             )
+        try:
+            duplicate_product = OrderProduct.objects.get(
+                product_id=product_article, session_id=card, status="PROCESSING")
+        except OrderProduct.DoesNotExist:
+            duplicate_product = None
 
-        order_product = OrderProduct(
-            session_id=OrderCard.objects.get(session_id=request.session.session_key),
-            product_id=product_article,
-            count=form.cleaned_data['count'],
-            status='PROCESSING',
-        )
-        order_product.save()
+        if duplicate_product:
+            order_product = duplicate_product
+            order_product.count += form.cleaned_data['count']
+            order_product.save()
+        else:
+            order_product = OrderProduct(
+                session_id=OrderCard.objects.get(session_id=request.session.session_key),
+                product_id=product_article,
+                count=form.cleaned_data['count'],
+                status='PROCESSING',
+            )
+            order_product.save()
         return False
     return True
