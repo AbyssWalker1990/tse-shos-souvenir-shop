@@ -100,18 +100,13 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # Database connect dev
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd8n0ickv81rkf0',
-        'USER': 'zmtddbejmsbhbh',
-        'PASSWORD': '552f326ec48d7c05434be7a9b5ec57c79741c6cccf67f3b8cf9f0690d8150863',
-        'HOST': 'ec2-34-252-216-149.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"), conn_max_age=600
+    )
 }
-
-
 
 
 # Password validation
@@ -147,8 +142,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tseshosshop@gmail.com'
-EMAIL_HOST_PASSWORD = 'suhcjenkcjmivahr'
+EMAIL_HOST_USER = os.environ.get("SOUV_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("SOUV_EMAIL_HOST_PASSWORD")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
