@@ -16,6 +16,9 @@ class Category(models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        ordering = ['created']
+
 
 class Product(models.Model):
     prod_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)

@@ -60,7 +60,7 @@ def goods_article(request, pk):
 # View for ALL categories
 def categories(request):
     goods_category = Category.objects.all()
-    custom_range, categories = paginate_categories(request, goods_category, 3)
+    custom_range, categories = paginate_categories(request, goods_category, 10)
 
     context = {
         'categories': categories,
